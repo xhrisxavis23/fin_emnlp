@@ -1,0 +1,61 @@
+# ===== Secrets =====
+.env
+.env.local
+*.key
+*credentials*
+*secret*
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.tox/
+build/
+dist/
+*.so
+
+# ===== Virtualenv / Conda =====
+venv/
+.venv/
+env/
+.python-version
+
+# ===== IDE / OS =====
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== Large data files (factor caches, model checkpoints) =====
+# 100MB+ 파일은 GitHub 가 거부. 그 이하라도 데이터 캐시는 코드 저장소에 넣지 않음.
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.parquet
+*.feather
+
+# ===== Runtime / output artifacts =====
+runs/
+log/
+logs/
+results/
+pickle_cache/
+mlruns/
+
+# ===== Build / package artifacts =====
+node_modules/
+.next/
+*.log

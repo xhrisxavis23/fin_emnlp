@@ -1,0 +1,15 @@
+baostock==0.8.9
+gymnasium
+matplotlib==3.7.1
+numpy==1.24.3
+pandas==1.5.3
+# Microsoft Qlib (import name: `qlib`, PyPI name: `pyqlib`)
+# Note: `0.9.0` is not available on PyPI in many indexes; `0.9.6/0.9.7` are.
+pyqlib==0.9.7
+sb3_contrib==1.8.0
+stable_baselines3==1.8.0
+torch==1.13.0
+shimmy==1.1.0
+fire
+# used by train_AFF.py / train_test_split
+scikit-learn

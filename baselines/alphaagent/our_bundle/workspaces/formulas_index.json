@@ -1,0 +1,9 @@
+[
+  {
+    "source_file": "/home/dgu/fin/AlphaAgent/examples_ous_bundle/react_validation_agent_233236_998002_formula011.json",
+    "formula_id": "formula009",
+    "formula_name": "formula009",
+    "workspace": "/home/dgu/fin/AlphaAgent/our_bundle/workspaces/formulas/705c5ef69f6d45328fe336870a647911",
+    "expr": "TS_RANK(close - low, 5)"
+  }
+]

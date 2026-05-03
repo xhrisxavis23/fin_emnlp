@@ -1,0 +1,16 @@
+{
+  "source_file": "example_ours.json",
+  "source_timestamp": "2026-01-30T18:37:26.224199",
+  "stage": "stage2",
+  "kind": "formula_list",
+  "formulas": [
+    {
+      "formula_id": "formula010",
+      "formula_name": "formula010",
+      "definition": "(close - low) / (high - low + 1e-8)",
+      "polarity": "higher_is_more_true",
+      "obs_id": "obs_intraday_recovery",
+      "obs_description": "Prices show signs of recovering from intraday lows, indicating initial upward pressure."
+    }
+  ]
+}

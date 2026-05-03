@@ -1,0 +1,489 @@
+{
+  "outer_iter_1": {
+    "hypothesis_id": "BH_MR_PanicSelling_5D_v1",
+    "observation_descriptions": [
+      {
+        "observation_id": "obs_sharp_price_decline",
+        "description": "The market experiences a significant and rapid price decline over a short period, indicating panic selling."
+      },
+      {
+        "observation_id": "obs_increased_volume",
+        "description": "Trading volume is significantly higher than the average, suggesting heightened trading activity and potential panic selling."
+      },
+      {
+        "observation_id": "obs_wide_price_range",
+        "description": "The daily price range (high-low) is unusually wide, reflecting increased volatility and market instability."
+      },
+      {
+        "observation_id": "obs_transition_volume_decrease",
+        "description": "A noticeable decrease in daily trading volume after a period of high volume, indicating a potential reduction in selling pressure and market stabilization."
+      }
+    ],
+    "formulas": [
+      {
+        "name": "formula001",
+        "kind": "evidence",
+        "observation_id": "obs_sharp_price_decline",
+        "definition": "DELTA(close, 5) / (ABS(DELAY(close, 5)) + 1e-8)",
+        "polarity": "lower_is_more_true",
+        "description": "Measures the percentage decline in the closing price over a 5-day period, indicating sharp price declines associated with panic selling."
+      },
+      {
+        "name": "formula002",
+        "kind": "evidence",
+        "observation_id": "obs_sharp_price_decline",
+        "definition": "TS_ZSCORE(close, 5)",
+        "polarity": "lower_is_more_true",
+        "description": "Standardized score of the closing price decline over the past 5 days, highlighting significant deviations from the mean as evidence of panic selling."
+      },
+      {
+        "name": "formula003",
+        "kind": "evidence",
+        "observation_id": "obs_sharp_price_decline",
+        "definition": "TS_PCTCHANGE(close, 5)",
+        "polarity": "lower_is_more_true",
+        "description": "Five-day percentage change in closing price, capturing rapid declines linked to panic selling."
+      },
+      {
+        "name": "formula004",
+        "kind": "evidence",
+        "observation_id": "obs_increased_volume",
+        "definition": "TS_ZSCORE(volume, 5)",
+        "polarity": "higher_is_more_true",
+        "description": "Standardized score of volume over 5 days, indicating unusually high trading activity that may reflect panic selling."
+      },
+      {
+        "name": "formula005",
+        "kind": "evidence",
+        "observation_id": "obs_increased_volume",
+        "definition": "TS_MEAN(volume, 5) / (TS_MEAN(volume, 20) + 1e-8)",
+        "polarity": "higher_is_more_true",
+        "description": "Ratio of the 5-day moving average of volume to the 20-day moving average, showing increased trading activity during suspected panic selling periods."
+      },
+      {
+        "name": "formula006",
+        "kind": "evidence",
+        "observation_id": "obs_increased_volume",
+        "definition": "TS_PCTCHANGE(volume, 5)",
+        "polarity": "higher_is_more_true",
+        "description": "Five-day percentage change in volume, capturing spikes in trading activity associated with panic selling."
+      },
+      {
+        "name": "formula007",
+        "kind": "evidence",
+        "observation_id": "obs_wide_price_range",
+        "definition": "TS_STD(high - low, 5)",
+        "polarity": "higher_is_more_true",
+        "description": "Standard deviation of the daily price range over 5 days, reflecting increased volatility and market instability."
+      },
+      {
+        "name": "formula008",
+        "kind": "evidence",
+        "observation_id": "obs_wide_price_range",
+        "definition": "(TS_MAX(high, 5) - TS_MIN(low, 5)) / (TS_MEAN(close, 5) + 1e-8)",
+        "polarity": "higher_is_more_true",
+        "description": "Normalized range between the maximum high and minimum low over 5 days, indicating wider price ranges during volatile market conditions."
+      },
+      {
+        "name": "formula009",
+        "kind": "evidence",
+        "observation_id": "obs_wide_price_range",
+        "definition": "TS_ZSCORE(high - low, 5)",
+        "polarity": "higher_is_more_true",
+        "description": "Standardized score of the daily price range over 5 days, identifying unusually wide ranges indicative of market instability."
+      },
+      {
+        "name": "formula010",
+        "kind": "evidence",
+        "observation_id": "obs_transition_volume_decrease",
+        "definition": "-TS_PCTCHANGE(volume, 5)",
+        "polarity": "higher_is_more_true",
+        "description": "Negative percentage change in volume over 5 days, capturing decreases in trading activity after initial high volumes, suggesting reduced selling pressure."
+      },
+      {
+        "name": "formula011_v2",
+        "kind": "evidence",
+        "observation_id": "obs_transition_volume_decrease",
+        "definition": "TS_MEAN(DELAY(volume, 5) - volume, 5)",
+        "polarity": "lower_is_more_true",
+        "description": "Average decrease in volume over 5 days compared to the previous 5-day period, indicating a reduction in trading activity following high volume periods."
+      },
+      {
+        "name": "formula012",
+        "kind": "evidence",
+        "observation_id": "obs_transition_volume_decrease",
+        "definition": "-TS_ZSCORE(volume, 5)",
+        "polarity": "higher_is_more_true",
+        "description": "Negative standardized score of volume over 5 days, suggesting decreases in trading activity after high volume periods."
+      }
+    ],
+    "notes": null
+  },
+  "outer_iter_2": {
+    "hypothesis_id": "BH_MR_PanicSelling_3D_v2",
+    "observation_descriptions": [
+      {
+        "observation_id": "obs_high_volume_spike",
+        "description": "A recent session has experienced a significant increase in volume, indicating a panic sell-off event."
+      },
+      {
+        "observation_id": "obs_sharp_price_decline",
+        "description": "There is a noticeable sharp decline in closing prices over the recent sessions, reflecting the panic sell-off."
+      },
+      {
+        "observation_id": "obs_low_intraday_range_after_decline",
+        "description": "Following the sharp decline, trading sessions show a reduced intraday range, indicating a decrease in volatility and potential exhaustion of selling pressure."
+      },
+      {
+        "observation_id": "obs_volume_decline_post_spike",
+        "description": "Volume is declining after the initial spike, reflecting a withdrawal of panicked sellers and less aggressive selling activity."
+      }
+    ],
+    "formulas": [
+      {
+        "name": "formula001",
+        "kind": "evidence",
+        "observation_id": "obs_high_volume_spike",
+        "definition": "TS_ZSCORE(volume, 5)",
+        "polarity": "higher_is_more_true",
+        "description": "This formula measures the Z-score of volume over the past 5 sessions. A higher value indicates an unusual spike in volume, suggesting a potential panic sell-off."
+      },
+      {
+        "name": "formula002",
+        "kind": "evidence",
+        "observation_id": "obs_high_volume_spike",
+        "definition": "(DELTA(volume, 1) / (volume + 1e-8))",
+        "polarity": "higher_is_more_true",
+        "description": "This formula captures the relative change in volume compared to the previous session. A higher value suggests a significant increase in volume, consistent with a panic sell-off."
+      },
+      {
+        "name": "formula003",
+        "kind": "evidence",
+        "observation_id": "obs_high_volume_spike",
+        "definition": "TS_MEAN(volume, 3) / (TS_MEAN(volume, 20) + 1e-8)",
+        "polarity": "higher_is_more_true",
+        "description": "This formula computes the ratio of the 3-day moving average of volume to the 20-day moving average. A higher ratio indicates a recent spike in volume relative to the longer-term average, suggesting panic selling."
+      },
+      {
+        "name": "formula004",
+        "kind": "evidence",
+        "observation_id": "obs_sharp_price_decline",
+        "definition": "DELTA(close, 3) / (close + 1e-8)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula calculates the three-day price change relative to the current closing price. A more negative value indicates a sharper decline, reflecting panic sell-off behavior."
+      },
+      {
+        "name": "formula005",
+        "kind": "evidence",
+        "observation_id": "obs_sharp_price_decline",
+        "definition": "TS_ZSCORE(close, 5)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula measures the Z-score of closing prices over the past 5 sessions. A lower value suggests that the current close is significantly below its recent average, indicative of a sharp decline."
+      },
+      {
+        "name": "formula006",
+        "kind": "evidence",
+        "observation_id": "obs_sharp_price_decline",
+        "definition": "TS_MIN(close, 5) / (TS_MEAN(close, 20) + 1e-8)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula calculates the ratio of the minimum closing price over the past 5 days to the 20-day average closing price. A lower ratio indicates a sharper decline, suggesting panic selling."
+      },
+      {
+        "name": "formula007",
+        "kind": "evidence",
+        "observation_id": "obs_low_intraday_range_after_decline",
+        "definition": "TS_MEAN(high - low, 5) / (TS_MEAN(high - low, 20) + 1e-8)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula computes the ratio of the 5-day average of the intraday range to the 20-day average. A lower value suggests a reduction in volatility and potential selling exhaustion."
+      },
+      {
+        "name": "formula008",
+        "kind": "evidence",
+        "observation_id": "obs_low_intraday_range_after_decline",
+        "definition": "TS_STD(high - low, 5)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula measures the standard deviation of the intraday range over the past 5 days. A lower value indicates reduced volatility following a decline."
+      },
+      {
+        "name": "formula009",
+        "kind": "evidence",
+        "observation_id": "obs_low_intraday_range_after_decline",
+        "definition": "TS_MEAN(ABS(close - open), 5)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula calculates the 5-day average of the absolute difference between the closing and opening prices. A lower value suggests a decrease in intraday range, reflecting reduced volatility after a sell-off."
+      },
+      {
+        "name": "formula010",
+        "kind": "evidence",
+        "observation_id": "obs_volume_decline_post_spike",
+        "definition": "DELTA(TS_MEAN(volume, 5), 3)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula calculates the change in the 5-day moving average of volume over the past 3 days. A negative value indicates a decline in volume, suggesting a withdrawal of panicked sellers."
+      },
+      {
+        "name": "formula011",
+        "kind": "evidence",
+        "observation_id": "obs_volume_decline_post_spike",
+        "definition": "TS_ZSCORE(volume, 10)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula measures the Z-score of volume over the past 10 sessions. A lower value indicates a decline in volume post-spike, reflecting reduced selling activity."
+      },
+      {
+        "name": "formula012",
+        "kind": "evidence",
+        "observation_id": "obs_volume_decline_post_spike",
+        "definition": "TS_MEAN(volume, 5) / (TS_MEAN(volume, 10) + 1e-8)",
+        "polarity": "lower_is_more_true",
+        "description": "This formula computes the ratio of the 5-day moving average of volume to the 10-day moving average. A lower ratio suggests a decline in volume after an initial spike."
+      }
+    ],
+    "notes": null
+  },
+  "outer_iter_3": {
+    "hypothesis_id": "BH_MR_PanicSelling_7D_v3",
+    "observation_descriptions": [
+      {
+        "observation_id": "obs_extreme_volume_increase",
+        "description": "The market experiences a significant increase in volume, indicating heightened trading activity commonly associated with a sell-off."
+      },
+      {
+        "observation_id": "obs_large_price_decline",
+        "description": "There is a substantial decline in the closing price, reflecting a significant sell-off."
+      },
+      {
+        "observation_id": "obs_narrowing_price_range",
+        "description": "The daily high-low price range begins to narrow, suggesting a reduction in volatility and selling pressure."
+      },
+      {
+        "observation_id": "obs_decreasing_volume",
+        "description": "Volume begins to decrease from previously heightened levels, indicating a reduction in trading activity and potentially less selling pressure."
+      }
+    ],
+    "formulas": [
+      {
+        "name": "formula001",
+        "kind": "evidence",
+        "observation_id": "obs_extreme_volume_increase",
+        "definition": "TS_ZSCORE(volume, 7)",
+        "polarity": "higher_is_more_true",
+        "description": "Measures the z-score of the volume over 7 days. A higher value indicates an increase in volume compared to the recent mean, suggesting heightened trading activity."
+      },
+      {
+        "name": "formula002",
+        "kind": "evidence",
+        "observation_id": "obs_extreme_volume_increase",
+        "definition": "(DELTA(volume, 1)/volume) * 100",
+        "polarity": "higher_is_more_true",
+        "description": "Calculates the percentage change in volume from the previous day. A higher percentage indicates a significant increase in trading activity."
+      },
+      {
+        "name": "formula003",
+        "kind": "evidence",
+        "observation_id": "obs_extreme_volume_increase",
+        "definition": "TS_RANK(volume, 7)",
+        "polarity": "higher_is_more_true",
+        "description": "Ranks the volume in the past 7 days. A higher rank indicates that the current volume is among the highest in the recent period, suggesting increased trading activity."
+      },
+      {
+        "name": "formula004",
+        "kind": "evidence",
+        "observation_id": "obs_large_price_decline",
+        "definition": "-TS_ZSCORE(close, 7)",
+        "polarity": "higher_is_more_true",
+        "description": "Measures the negative z-score of the closing price over 7 days. A higher negative z-score indicates a larger decline in price from the recent mean."
+      },
+      {
+        "name": "formula005",
+        "kind": "evidence",
+        "observation_id": "obs_large_price_decline",
+        "definition": "-(DELTA(close, 1)/close) * 100",
+        "polarity": "higher_is_more_true",
+        "description": "Calculates the negative percentage change in the closing price from the previous day. A higher value indicates a larger decline, reflecting a significant sell-off."
+      },
+      {
+        "name": "formula006",
+        "kind": "evidence",
+        "observation_id": "obs_large_price_decline",
+        "definition": "-TS_RANK(close, 7)",
+        "polarity": "higher_is_more_true",
+        "description": "Ranks the closing price in the past 7 days. A higher rank in the negative indicates a significant decline in the closing price."
+      },
+      {
+        "name": "formula007",
+        "kind": "evidence",
+        "observation_id": "obs_narrowing_price_range",
+        "definition": "TS_STD(high - low, 7)",
+        "polarity": "lower_is_more_true",
+        "description": "Measures the standard deviation of the high-low range over 7 days. A lower standard deviation suggests a narrowing price range."
+      },
+      {
+        "name": "formula008",
+        "kind": "evidence",
+        "observation_id": "obs_narrowing_price_range",
+        "definition": "TS_MEAN(high - low, 7)",
+        "polarity": "lower_is_more_true",
+        "description": "Calculates the mean of the high-low range over 7 days. A lower mean indicates a narrowing of the price range."
+      },
+      {
+        "name": "formula009",
+        "kind": "evidence",
+        "observation_id": "obs_narrowing_price_range",
+        "definition": "TS_RANK(high - low, 7)",
+        "polarity": "lower_is_more_true",
+        "description": "Ranks the high-low range in the past 7 days. A lower rank indicates a narrowing range."
+      },
+      {
+        "name": "formula010",
+        "kind": "evidence",
+        "observation_id": "obs_decreasing_volume",
+        "definition": "-TS_ZSCORE(volume, 7)",
+        "polarity": "higher_is_more_true",
+        "description": "Measures the negative z-score of the volume over 7 days. A higher negative z-score suggests a decrease in trading activity from previously heightened levels."
+      },
+      {
+        "name": "formula011",
+        "kind": "evidence",
+        "observation_id": "obs_decreasing_volume",
+        "definition": "-(DELTA(volume, 1)/volume) * 100",
+        "polarity": "higher_is_more_true",
+        "description": "Calculates the negative percentage change in volume from the previous day. A higher value indicates a larger decrease in trading activity."
+      },
+      {
+        "name": "formula012",
+        "kind": "evidence",
+        "observation_id": "obs_decreasing_volume",
+        "definition": "-TS_RANK(volume, 7)",
+        "polarity": "higher_is_more_true",
+        "description": "Ranks the volume in the past 7 days. A higher rank in the negative indicates a decrease in volume, suggesting reduced trading activity."
+      }
+    ],
+    "notes": null
+  },
+  "outer_iter_4": {
+    "hypothesis_id": "BH_MR_PanicSelling_9D_v4",
+    "observation_descriptions": [
+      {
+        "observation_id": "obs_extended_price_decline",
+        "description": "The market has experienced a prolonged and significant decline in price over several days, indicating extended panic-driven selling."
+      },
+      {
+        "observation_id": "obs_volume_surge",
+        "description": "There is a notable surge in trading volume, suggesting heightened activity often associated with panic selling."
+      },
+      {
+        "observation_id": "obs_reduction_in_price_range",
+        "description": "A reduction in daily price range, implying a decrease in volatility which may indicate a pause in aggressive selling pressure."
+      },
+      {
+        "observation_id": "obs_early_signs_of_buying_activity",
+        "description": "An increase in closing prices from intra-day lows, suggesting early signs of buying interest as prices recover slightly by the end of the trading day."
+      }
+    ],
+    "formulas": [
+      {
+        "name": "formula001",
+        "kind": "evidence",
+        "observation_id": "obs_extended_price_decline",
+        "definition": "TS_SUM(DELTA(close, 1) / DELAY(close, 1), 9)",
+        "polarity": "lower_is_more_true",
+        "description": "Measures the cumulative price decline over the past 9 days. A more negative value indicates a more extensive decline, suggesting panic-driven selling."
+      },
+      {
+        "name": "formula002",
+        "kind": "evidence",
+        "observation_id": "obs_extended_price_decline",
+        "definition": "TS_MEAN(TS_ZSCORE(close, 9), 9)",
+        "polarity": "lower_is_more_true",
+        "description": "Average Z-score of closing prices over the past 9 days. Lower values suggest significant declines, indicating extended panic selling."
+      },
+      {
+        "name": "formula003",
+        "kind": "evidence",
+        "observation_id": "obs_extended_price_decline",
+        "definition": "TS_MIN(TS_PCTCHANGE(close, 1), 9)",
+        "polarity": "lower_is_more_true",
+        "description": "Minimum daily percentage change in closing prices over the past 9 days. Lower values indicate more significant declines, characteristic of panic selling."
+      },
+      {
+        "name": "formula004",
+        "kind": "evidence",
+        "observation_id": "obs_volume_surge",
+        "definition": "TS_ZSCORE(volume, 9)",
+        "polarity": "higher_is_more_true",
+        "description": "Z-score of trading volume over the past 9 days. Higher values suggest a surge in volume, often associated with panic selling."
+      },
+      {
+        "name": "formula005",
+        "kind": "evidence",
+        "observation_id": "obs_volume_surge",
+        "definition": "TS_MEAN(DELTA(volume, 1) / DELAY(volume, 1), 9)",
+        "polarity": "higher_is_more_true",
+        "description": "Average daily percentage change in trading volume over the past 9 days. Higher values indicate a surge in activity, suggesting panic selling."
+      },
+      {
+        "name": "formula006",
+        "kind": "evidence",
+        "observation_id": "obs_volume_surge",
+        "definition": "TS_MAX(TS_PCTCHANGE(volume, 1), 9)",
+        "polarity": "higher_is_more_true",
+        "description": "Maximum daily percentage change in trading volume over the past 9 days, representing peak activity levels that may indicate panic selling."
+      },
+      {
+        "name": "formula007",
+        "kind": "evidence",
+        "observation_id": "obs_reduction_in_price_range",
+        "definition": "TS_MEAN(high - low, 9)",
+        "polarity": "lower_is_more_true",
+        "description": "Average daily price range over the past 9 days. A reduction in this range suggests decreased volatility and possibly a pause in aggressive selling."
+      },
+      {
+        "name": "formula008",
+        "kind": "evidence",
+        "observation_id": "obs_reduction_in_price_range",
+        "definition": "TS_ZSCORE(high - low, 9)",
+        "polarity": "lower_is_more_true",
+        "description": "Z-score of daily price ranges over the past 9 days. Lower values indicate a reduction in volatility, suggesting a pause in aggressive selling."
+      },
+      {
+        "name": "formula009",
+        "kind": "evidence",
+        "observation_id": "obs_reduction_in_price_range",
+        "definition": "TS_MIN(high - low, 9)",
+        "polarity": "lower_is_more_true",
+        "description": "Minimum daily price range over the past 9 days. Lower values suggest reduced volatility, indicating a pause in aggressive selling pressure."
+      },
+      {
+        "name": "formula010",
+        "kind": "evidence",
+        "observation_id": "obs_early_signs_of_buying_activity",
+        "definition": "TS_MEAN((close - low) / low, 9)",
+        "polarity": "higher_is_more_true",
+        "description": "Average recovery from intra-day lows to closing prices over the past 9 days. Higher values suggest early signs of buying interest as prices recover by the end of the trading day."
+      },
+      {
+        "name": "formula011",
+        "kind": "evidence",
+        "observation_id": "obs_early_signs_of_buying_activity",
+        "definition": "TS_ZSCORE(close - low, 9)",
+        "polarity": "higher_is_more_true",
+        "description": "Z-score of the difference between closing prices and intra-day lows over the past 9 days. Higher values suggest a recovery from lows, indicating potential buying interest."
+      },
+      {
+        "name": "formula012",
+        "kind": "evidence",
+        "observation_id": "obs_early_signs_of_buying_activity",
+        "definition": "TS_MAX((close - low) / (high - low + 1e-8), 9)",
+        "polarity": "higher_is_more_true",
+        "description": "Maximum relative recovery from intra-day lows within the daily range over the past 9 days. Higher values indicate potential buying interest as prices close higher relative to intra-day lows."
+      }
+    ],
+    "notes": null
+  },
+  "outer_iter_5": {
+    "hypothesis_id": "BH_MR_PanicSelling_6D_v5",
+    "formulas": [],
+    "validation_errors": [
+      "formulas[13] (name='formula014') definition must be continuous numeric (no comparisons/logical ops). Found operators: <. Definition: -(COUNT(low < DELAY(low, 1), 10) / 10)"
+    ]
+  }
+}

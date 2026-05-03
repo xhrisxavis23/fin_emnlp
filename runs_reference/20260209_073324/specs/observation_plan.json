@@ -1,0 +1,111 @@
+{
+  "outer_iter_1": {
+    "hypothesis_id": "BH_MR_PanicSelling_5D_v1",
+    "observations": [
+      {
+        "observation_id": "obs_sharp_price_decline",
+        "description": "The market experiences a significant and rapid price decline over a short period, indicating panic selling."
+      },
+      {
+        "observation_id": "obs_increased_volume",
+        "description": "Trading volume is significantly higher than the average, suggesting heightened trading activity and potential panic selling."
+      },
+      {
+        "observation_id": "obs_wide_price_range",
+        "description": "The daily price range (high-low) is unusually wide, reflecting increased volatility and market instability."
+      },
+      {
+        "observation_id": "obs_transition_volume_decrease",
+        "description": "A noticeable decrease in daily trading volume after a period of high volume, indicating a potential reduction in selling pressure and market stabilization."
+      }
+    ]
+  },
+  "outer_iter_2": {
+    "hypothesis_id": "BH_MR_PanicSelling_3D_v2",
+    "observations": [
+      {
+        "observation_id": "obs_high_volume_spike",
+        "description": "A recent session has experienced a significant increase in volume, indicating a panic sell-off event."
+      },
+      {
+        "observation_id": "obs_sharp_price_decline",
+        "description": "There is a noticeable sharp decline in closing prices over the recent sessions, reflecting the panic sell-off."
+      },
+      {
+        "observation_id": "obs_low_intraday_range_after_decline",
+        "description": "Following the sharp decline, trading sessions show a reduced intraday range, indicating a decrease in volatility and potential exhaustion of selling pressure."
+      },
+      {
+        "observation_id": "obs_volume_decline_post_spike",
+        "description": "Volume is declining after the initial spike, reflecting a withdrawal of panicked sellers and less aggressive selling activity."
+      }
+    ]
+  },
+  "outer_iter_3": {
+    "hypothesis_id": "BH_MR_PanicSelling_7D_v3",
+    "observations": [
+      {
+        "observation_id": "obs_extreme_volume_increase",
+        "description": "The market experiences a significant increase in volume, indicating heightened trading activity commonly associated with a sell-off."
+      },
+      {
+        "observation_id": "obs_large_price_decline",
+        "description": "There is a substantial decline in the closing price, reflecting a significant sell-off."
+      },
+      {
+        "observation_id": "obs_narrowing_price_range",
+        "description": "The daily high-low price range begins to narrow, suggesting a reduction in volatility and selling pressure."
+      },
+      {
+        "observation_id": "obs_decreasing_volume",
+        "description": "Volume begins to decrease from previously heightened levels, indicating a reduction in trading activity and potentially less selling pressure."
+      }
+    ]
+  },
+  "outer_iter_4": {
+    "hypothesis_id": "BH_MR_PanicSelling_9D_v4",
+    "observations": [
+      {
+        "observation_id": "obs_extended_price_decline",
+        "description": "The market has experienced a prolonged and significant decline in price over several days, indicating extended panic-driven selling."
+      },
+      {
+        "observation_id": "obs_volume_surge",
+        "description": "There is a notable surge in trading volume, suggesting heightened activity often associated with panic selling."
+      },
+      {
+        "observation_id": "obs_reduction_in_price_range",
+        "description": "A reduction in daily price range, implying a decrease in volatility which may indicate a pause in aggressive selling pressure."
+      },
+      {
+        "observation_id": "obs_early_signs_of_buying_activity",
+        "description": "An increase in closing prices from intra-day lows, suggesting early signs of buying interest as prices recover slightly by the end of the trading day."
+      }
+    ]
+  },
+  "outer_iter_5": {
+    "hypothesis_id": "BH_MR_PanicSelling_6D_v5",
+    "observations": [
+      {
+        "observation_id": "obs_pronounced_selloff",
+        "description": "A recent sharp decline in price over several days indicating a pronounced sell-off."
+      },
+      {
+        "observation_id": "obs_volume_spike",
+        "description": "A substantial increase in trading volume during the sell-off, but not the highest volume recorded recently."
+      },
+      {
+        "observation_id": "obs_volume_decline",
+        "description": "A noticeable decline in volume following the volume spike, indicating reduced selling pressure."
+      },
+      {
+        "observation_id": "obs_price_distortion",
+        "description": "Price levels have moved significantly away from recent average levels, implying a temporary distortion."
+      },
+      {
+        "observation_id": "obs_reduced_selling_interest",
+        "description": "The frequency of new lows is decreasing, suggesting a weakening of selling interest."
+      }
+    ]
+  }
+}

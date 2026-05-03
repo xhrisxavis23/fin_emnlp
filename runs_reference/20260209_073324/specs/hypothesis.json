@@ -1,0 +1,52 @@
+{
+  "outer_iter_1": {
+    "hypotheses": [
+      {
+        "hypothesis_id": "BH_MR_PanicSelling_5D_v1",
+        "hypothesis_name": "Panic Selling Reversion",
+        "behavioral_description": "A sharp sell-off with increased volume across many stocks indicates panic selling, where liquidity providers and short-term traders exploit excessively low prices, stabilizing the market and causing short-term mean reversion.",
+        "horizon_days": 5
+      }
+    ]
+  },
+  "outer_iter_2": {
+    "hypotheses": [
+      {
+        "hypothesis_id": "BH_MR_PanicSelling_3D_v2",
+        "hypothesis_name": "Post-Panic Sell-Off Evaporation",
+        "behavioral_description": "After a sharp sell-off marked by a high volume spike, market conditions suggest that liquidity withdrawal by panicked sellers leaves a temporary price vacuum. This gap is typically exploited by opportunistic traders seeking short-term gains, leading to a brief mean reversion as prices adjust upwards.",
+        "horizon_days": 3
+      }
+    ]
+  },
+  "outer_iter_3": {
+    "hypotheses": [
+      {
+        "hypothesis_id": "BH_MR_PanicSelling_7D_v3",
+        "hypothesis_name": "Delayed Reaction to Panic Selling",
+        "behavioral_description": "Following an extreme sell-off with significantly increased volume, initial recovery is hindered by ongoing market uncertainty and short-selling activity. As these pressures alleviate and value-seeking investors gradually return, a delayed price mean reversion occurs over approximately one week.",
+        "horizon_days": 7
+      }
+    ]
+  },
+  "outer_iter_4": {
+    "hypotheses": [
+      {
+        "hypothesis_id": "BH_MR_PanicSelling_9D_v4",
+        "hypothesis_name": "Mean Reversion Post Extended Panic Selling",
+        "behavioral_description": "In the aftermath of an extended period of panic-driven sell-off and volume surge, even as short-sellers capitalize on declining prices, a saturation point is likely reached. At this juncture, liquidity providers and contrarian investors are incentivized to step in, driving a gradual price correction through mean reversion over a longer horizon.",
+        "horizon_days": 9
+      }
+    ]
+  },
+  "outer_iter_5": {
+    "hypotheses": [
+      {
+        "hypothesis_id": "BH_MR_PanicSelling_6D_v5",
+        "hypothesis_name": "Post-Panic Volume Exhaustion",
+        "behavioral_description": "After a pronounced sell-off with a substantial but not the highest volume spike, the initial panic abates, and volume begins to decline as selling pressure exhausts itself. This creates a temporary price distortion as the pool of willing sellers reduces, encouraging liquidity providers to facilitate a price stabilization that leads to mean reversion over several days.",
+        "horizon_days": 6
+      }
+    ]
+  }
+}

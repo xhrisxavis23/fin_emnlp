@@ -1,0 +1,129 @@
+{
+  "run_id": "20260209_073324",
+  "concept": "Mean Reversion after Panic Selling",
+  "timestamp": "2026-02-09T10:14:14.021471",
+  "config": {
+    "llm": {
+      "model_name": "gpt-4o",
+      "temperature": 0.7,
+      "max_tokens": 2048
+    },
+    "data": {
+      "date_col": "timestamp",
+      "asset_col": "ticker",
+      "price_col": "close",
+      "open_col": "open",
+      "high_col": "high",
+      "low_col": "low",
+      "volume_col": "volume",
+      "trading_value_col": "tradingvalue",
+      "market_cap_col": "marketcap",
+      "shares_outstanding_col": "sharesoutstanding"
+    },
+    "qlib": {
+      "use_qlib_data": true,
+      "qlib_market": "csi500",
+      "provider_uri": "~/.qlib/qlib_data/cn_data",
+      "region": "cn",
+      "csv_dir": "",
+      "open_cost": 0.0005,
+      "close_cost": 0.0015,
+      "min_cost": 5.0,
+      "init_cash": 100000000.0,
+      "limit_threshold": 0.095,
+      "deal_price": "open",
+      "benchmark": "SH000905"
+    },
+    "stage1": {
+      "allowed_ohlcv_columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "refine_rounds": 10
+    },
+    "stage2": {
+      "n_quantiles": 5,
+      "monotonicity_threshold": 0.8
+    },
+    "stage3": {
+      "horizon_days": 5,
+      "monotonicity_threshold": 0.7,
+      "strictness_grid": {
+        "very_loose": 0.1,
+        "loose": 0.3,
+        "medium": 0.5,
+        "strict": 0.7,
+        "very_strict": 0.9
+      },
+      "use_random_grid": true,
+      "random_grid_steps": 3,
+      "combination_pass_rate_threshold": 0.5,
+      "combination_s2_improvement_threshold": 0.01,
+      "n_processes": 8
+    },
+    "stage4": {
+      "enable_optuna": true,
+      "n_trials": 20,
+      "threshold_min": 0.55,
+      "threshold_max": 0.95,
+      "fixed_quantiles": [],
+      "max_combinations_to_evaluate": -1,
+      "combination_selection_criterion": "s2_improvement",
+      "n_processes": 8,
+      "optuna_log_every": 0,
+      "combined_signal_q": 0.9,
+      "horizon_days": 9,
+      "lookback_window": 20,
+      "stop_loss_threshold": -0.05,
+      "entry_confirm_rule": "none",
+      "entry_confirm_lag_days": 0,
+      "entry_close_pos_min": 0.7,
+      "entry_daily_return_min": 0.0,
+      "ref_price_fn": "max_high",
+      "trigger_price_field": "high",
+      "trigger_op": "gte",
+      "trigger_kmin": 1,
+      "trigger_kmax": 5,
+      "native_strategy": "trigger_exit",
+      "topk": 50,
+      "n_drop": 5,
+      "hold_thresh": 1
+    },
+    "data_split": {
+      "train_start": "2015-01-01",
+      "train_end": "2019-12-31",
+      "val_start": "2020-01-01",
+      "val_end": "2020-12-31",
+      "test_start": "2021-01-01",
+      "test_end": "2025-12-31"
+    },
+    "refinement": {
+      "enable_inner_loop": true,
+      "max_inner_iterations": 3,
+      "enable_outer_loop": true,
+      "max_outer_iterations": 5
+    },
+    "pipeline_control": {
+      "enable_stage2": true,
+      "enable_stage3": true
+    }
+  },
+  "pipeline_control": {
+    "enable_stage2": true,
+    "enable_stage3": true
+  },
+  "data_split": {
+    "train_start": "2015-01-01",
+    "train_end": "2019-12-31",
+    "val_start": "2020-01-01",
+    "val_end": "2020-12-31",
+    "test_start": "2021-01-01",
+    "test_end": "2025-12-31"
+  },
+  "stage4_skipped": true,
+  "stage3_verdict": "FAIL",
+  "outer_loop_used": true
+}

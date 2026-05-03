@@ -1,0 +1,1077 @@
+{
+  "total_records": 119,
+  "showing_last": 119,
+  "records": [
+    {
+      "timestamp": "2026-02-09T07:33:34.476495",
+      "model": "gpt-4o",
+      "prompt_tokens": 999,
+      "completion_tokens": 81,
+      "total_tokens": 1080,
+      "cost_usd": 0.003308,
+      "context": "Stage1: Hypothesis Generation"
+    },
+    {
+      "timestamp": "2026-02-09T07:33:37.487789",
+      "model": "gpt-4o",
+      "prompt_tokens": 1221,
+      "completion_tokens": 154,
+      "total_tokens": 1375,
+      "cost_usd": 0.004593,
+      "context": "Stage1: Observation Planning"
+    },
+    {
+      "timestamp": "2026-02-09T07:33:48.632576",
+      "model": "gpt-4o",
+      "prompt_tokens": 3387,
+      "completion_tokens": 1023,
+      "total_tokens": 4410,
+      "cost_usd": 0.018698,
+      "context": "Stage1: Formula Generation"
+    },
+    {
+      "timestamp": "2026-02-09T07:33:57.037777",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1023,
+      "total_tokens": 4776,
+      "cost_usd": 0.019613,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:03.823922",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1023,
+      "total_tokens": 4776,
+      "cost_usd": 0.019613,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:10.344618",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1023,
+      "total_tokens": 4776,
+      "cost_usd": 0.019613,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:16.013736",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1021,
+      "total_tokens": 4774,
+      "cost_usd": 0.019592,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:21.428669",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1022,
+      "total_tokens": 4775,
+      "cost_usd": 0.019603,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:30.400968",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1014,
+      "total_tokens": 4767,
+      "cost_usd": 0.019523,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:36.040665",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1021,
+      "total_tokens": 4774,
+      "cost_usd": 0.019592,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:41.644702",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1017,
+      "total_tokens": 4770,
+      "cost_usd": 0.019553,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:47.426903",
+      "model": "gpt-4o",
+      "prompt_tokens": 3750,
+      "completion_tokens": 1017,
+      "total_tokens": 4767,
+      "cost_usd": 0.019545,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:34:52.639531",
+      "model": "gpt-4o",
+      "prompt_tokens": 3750,
+      "completion_tokens": 1017,
+      "total_tokens": 4767,
+      "cost_usd": 0.019545,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:35:55.755823",
+      "model": "gpt-4o",
+      "prompt_tokens": 3682,
+      "completion_tokens": 397,
+      "total_tokens": 4079,
+      "cost_usd": 0.013175,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:36:02.588117",
+      "model": "gpt-4o",
+      "prompt_tokens": 3667,
+      "completion_tokens": 384,
+      "total_tokens": 4051,
+      "cost_usd": 0.013008,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:36:10.620722",
+      "model": "gpt-4o",
+      "prompt_tokens": 3667,
+      "completion_tokens": 503,
+      "total_tokens": 4170,
+      "cost_usd": 0.014198,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:36:18.232782",
+      "model": "gpt-4o",
+      "prompt_tokens": 3666,
+      "completion_tokens": 397,
+      "total_tokens": 4063,
+      "cost_usd": 0.013135,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:36:25.453212",
+      "model": "gpt-4o",
+      "prompt_tokens": 3680,
+      "completion_tokens": 405,
+      "total_tokens": 4085,
+      "cost_usd": 0.01325,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:36:33.671753",
+      "model": "gpt-4o",
+      "prompt_tokens": 3665,
+      "completion_tokens": 418,
+      "total_tokens": 4083,
+      "cost_usd": 0.013343,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:36:44.050449",
+      "model": "gpt-4o",
+      "prompt_tokens": 3670,
+      "completion_tokens": 394,
+      "total_tokens": 4064,
+      "cost_usd": 0.013115,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:36:51.219257",
+      "model": "gpt-4o",
+      "prompt_tokens": 3691,
+      "completion_tokens": 391,
+      "total_tokens": 4082,
+      "cost_usd": 0.013138,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:36:58.840337",
+      "model": "gpt-4o",
+      "prompt_tokens": 3671,
+      "completion_tokens": 375,
+      "total_tokens": 4046,
+      "cost_usd": 0.012927,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:37:06.324477",
+      "model": "gpt-4o",
+      "prompt_tokens": 3674,
+      "completion_tokens": 401,
+      "total_tokens": 4075,
+      "cost_usd": 0.013195,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:37:15.440338",
+      "model": "gpt-4o",
+      "prompt_tokens": 3675,
+      "completion_tokens": 469,
+      "total_tokens": 4144,
+      "cost_usd": 0.013878,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:37:24.799166",
+      "model": "gpt-4o",
+      "prompt_tokens": 3676,
+      "completion_tokens": 394,
+      "total_tokens": 4070,
+      "cost_usd": 0.01313,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:37:30.912697",
+      "model": "gpt-4o",
+      "prompt_tokens": 6103,
+      "completion_tokens": 1018,
+      "total_tokens": 7121,
+      "cost_usd": 0.025438,
+      "context": "Stage1: Formula Refinement"
+    },
+    {
+      "timestamp": "2026-02-09T07:37:36.111316",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1020,
+      "total_tokens": 4773,
+      "cost_usd": 0.019583,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:38:40.870767",
+      "model": "gpt-4o",
+      "prompt_tokens": 3682,
+      "completion_tokens": 436,
+      "total_tokens": 4118,
+      "cost_usd": 0.013565,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:38:49.803260",
+      "model": "gpt-4o",
+      "prompt_tokens": 3667,
+      "completion_tokens": 434,
+      "total_tokens": 4101,
+      "cost_usd": 0.013508,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:38:58.676316",
+      "model": "gpt-4o",
+      "prompt_tokens": 3667,
+      "completion_tokens": 384,
+      "total_tokens": 4051,
+      "cost_usd": 0.013008,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:39:06.489357",
+      "model": "gpt-4o",
+      "prompt_tokens": 3666,
+      "completion_tokens": 399,
+      "total_tokens": 4065,
+      "cost_usd": 0.013155,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:39:14.072722",
+      "model": "gpt-4o",
+      "prompt_tokens": 3680,
+      "completion_tokens": 398,
+      "total_tokens": 4078,
+      "cost_usd": 0.01318,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:39:21.053897",
+      "model": "gpt-4o",
+      "prompt_tokens": 3665,
+      "completion_tokens": 381,
+      "total_tokens": 4046,
+      "cost_usd": 0.012973,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:39:27.927249",
+      "model": "gpt-4o",
+      "prompt_tokens": 3670,
+      "completion_tokens": 392,
+      "total_tokens": 4062,
+      "cost_usd": 0.013095,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:39:34.972510",
+      "model": "gpt-4o",
+      "prompt_tokens": 3691,
+      "completion_tokens": 390,
+      "total_tokens": 4081,
+      "cost_usd": 0.013128,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:39:42.946932",
+      "model": "gpt-4o",
+      "prompt_tokens": 3671,
+      "completion_tokens": 418,
+      "total_tokens": 4089,
+      "cost_usd": 0.013358,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:39:51.595266",
+      "model": "gpt-4o",
+      "prompt_tokens": 3674,
+      "completion_tokens": 399,
+      "total_tokens": 4073,
+      "cost_usd": 0.013175,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:39:59.812624",
+      "model": "gpt-4o",
+      "prompt_tokens": 3682,
+      "completion_tokens": 461,
+      "total_tokens": 4143,
+      "cost_usd": 0.013815,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:40:07.790394",
+      "model": "gpt-4o",
+      "prompt_tokens": 3676,
+      "completion_tokens": 404,
+      "total_tokens": 4080,
+      "cost_usd": 0.01323,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:40:30.843934",
+      "model": "gpt-4o",
+      "prompt_tokens": 6105,
+      "completion_tokens": 1019,
+      "total_tokens": 7124,
+      "cost_usd": 0.025453,
+      "context": "Stage1: Formula Refinement"
+    },
+    {
+      "timestamp": "2026-02-09T07:40:38.234451",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1019,
+      "total_tokens": 4772,
+      "cost_usd": 0.019572,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:40:44.735371",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1019,
+      "total_tokens": 4772,
+      "cost_usd": 0.019572,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:40:53.528906",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1019,
+      "total_tokens": 4772,
+      "cost_usd": 0.019572,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:40:59.648647",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1019,
+      "total_tokens": 4772,
+      "cost_usd": 0.019572,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:41:05.850804",
+      "model": "gpt-4o",
+      "prompt_tokens": 3753,
+      "completion_tokens": 1019,
+      "total_tokens": 4772,
+      "cost_usd": 0.019572,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T07:42:10.122663",
+      "model": "gpt-4o",
+      "prompt_tokens": 3682,
+      "completion_tokens": 467,
+      "total_tokens": 4149,
+      "cost_usd": 0.013875,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:42:17.655734",
+      "model": "gpt-4o",
+      "prompt_tokens": 3667,
+      "completion_tokens": 376,
+      "total_tokens": 4043,
+      "cost_usd": 0.012928,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:42:25.531450",
+      "model": "gpt-4o",
+      "prompt_tokens": 3667,
+      "completion_tokens": 503,
+      "total_tokens": 4170,
+      "cost_usd": 0.014198,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:42:34.195733",
+      "model": "gpt-4o",
+      "prompt_tokens": 3666,
+      "completion_tokens": 395,
+      "total_tokens": 4061,
+      "cost_usd": 0.013115,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:42:42.248956",
+      "model": "gpt-4o",
+      "prompt_tokens": 3680,
+      "completion_tokens": 388,
+      "total_tokens": 4068,
+      "cost_usd": 0.01308,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:42:50.273844",
+      "model": "gpt-4o",
+      "prompt_tokens": 3665,
+      "completion_tokens": 394,
+      "total_tokens": 4059,
+      "cost_usd": 0.013102,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:42:58.349157",
+      "model": "gpt-4o",
+      "prompt_tokens": 3670,
+      "completion_tokens": 390,
+      "total_tokens": 4060,
+      "cost_usd": 0.013075,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:43:05.756659",
+      "model": "gpt-4o",
+      "prompt_tokens": 3691,
+      "completion_tokens": 383,
+      "total_tokens": 4074,
+      "cost_usd": 0.013058,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:43:13.343966",
+      "model": "gpt-4o",
+      "prompt_tokens": 3671,
+      "completion_tokens": 397,
+      "total_tokens": 4068,
+      "cost_usd": 0.013147,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:43:22.134572",
+      "model": "gpt-4o",
+      "prompt_tokens": 3674,
+      "completion_tokens": 395,
+      "total_tokens": 4069,
+      "cost_usd": 0.013135,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:43:31.012921",
+      "model": "gpt-4o",
+      "prompt_tokens": 3678,
+      "completion_tokens": 450,
+      "total_tokens": 4128,
+      "cost_usd": 0.013695,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T07:43:38.624687",
+      "model": "gpt-4o",
+      "prompt_tokens": 3676,
+      "completion_tokens": 400,
+      "total_tokens": 4076,
+      "cost_usd": 0.01319,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:07:42.070218",
+      "model": "gpt-4o",
+      "prompt_tokens": 1271,
+      "completion_tokens": 100,
+      "total_tokens": 1371,
+      "cost_usd": 0.004178,
+      "context": "Stage1: Hypothesis Generation"
+    },
+    {
+      "timestamp": "2026-02-09T08:07:46.033822",
+      "model": "gpt-4o",
+      "prompt_tokens": 1240,
+      "completion_tokens": 165,
+      "total_tokens": 1405,
+      "cost_usd": 0.00475,
+      "context": "Stage1: Observation Planning"
+    },
+    {
+      "timestamp": "2026-02-09T08:08:01.102433",
+      "model": "gpt-4o",
+      "prompt_tokens": 3398,
+      "completion_tokens": 1218,
+      "total_tokens": 4616,
+      "cost_usd": 0.020675,
+      "context": "Stage1: Formula Generation"
+    },
+    {
+      "timestamp": "2026-02-09T08:08:09.618451",
+      "model": "gpt-4o",
+      "prompt_tokens": 3955,
+      "completion_tokens": 1218,
+      "total_tokens": 5173,
+      "cost_usd": 0.022068,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:09:10.763334",
+      "model": "gpt-4o",
+      "prompt_tokens": 3667,
+      "completion_tokens": 403,
+      "total_tokens": 4070,
+      "cost_usd": 0.013198,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:09:18.456923",
+      "model": "gpt-4o",
+      "prompt_tokens": 3672,
+      "completion_tokens": 414,
+      "total_tokens": 4086,
+      "cost_usd": 0.01332,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:09:26.627796",
+      "model": "gpt-4o",
+      "prompt_tokens": 3679,
+      "completion_tokens": 398,
+      "total_tokens": 4077,
+      "cost_usd": 0.013178,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:09:39.962533",
+      "model": "gpt-4o",
+      "prompt_tokens": 3682,
+      "completion_tokens": 458,
+      "total_tokens": 4140,
+      "cost_usd": 0.013785,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:09:54.078033",
+      "model": "gpt-4o",
+      "prompt_tokens": 3669,
+      "completion_tokens": 508,
+      "total_tokens": 4177,
+      "cost_usd": 0.014253,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:10:01.825037",
+      "model": "gpt-4o",
+      "prompt_tokens": 3686,
+      "completion_tokens": 440,
+      "total_tokens": 4126,
+      "cost_usd": 0.013615,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:10:10.032488",
+      "model": "gpt-4o",
+      "prompt_tokens": 3697,
+      "completion_tokens": 392,
+      "total_tokens": 4089,
+      "cost_usd": 0.013163,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:10:19.664280",
+      "model": "gpt-4o",
+      "prompt_tokens": 3678,
+      "completion_tokens": 379,
+      "total_tokens": 4057,
+      "cost_usd": 0.012985,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:10:27.384161",
+      "model": "gpt-4o",
+      "prompt_tokens": 3681,
+      "completion_tokens": 384,
+      "total_tokens": 4065,
+      "cost_usd": 0.013043,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:10:35.061386",
+      "model": "gpt-4o",
+      "prompt_tokens": 3674,
+      "completion_tokens": 410,
+      "total_tokens": 4084,
+      "cost_usd": 0.013285,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:10:43.583230",
+      "model": "gpt-4o",
+      "prompt_tokens": 3676,
+      "completion_tokens": 411,
+      "total_tokens": 4087,
+      "cost_usd": 0.0133,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:10:52.015572",
+      "model": "gpt-4o",
+      "prompt_tokens": 3686,
+      "completion_tokens": 415,
+      "total_tokens": 4101,
+      "cost_usd": 0.013365,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:47:00.557330",
+      "model": "gpt-4o",
+      "prompt_tokens": 1481,
+      "completion_tokens": 91,
+      "total_tokens": 1572,
+      "cost_usd": 0.004613,
+      "context": "Stage1: Hypothesis Generation"
+    },
+    {
+      "timestamp": "2026-02-09T08:47:04.215128",
+      "model": "gpt-4o",
+      "prompt_tokens": 1231,
+      "completion_tokens": 151,
+      "total_tokens": 1382,
+      "cost_usd": 0.004588,
+      "context": "Stage1: Observation Planning"
+    },
+    {
+      "timestamp": "2026-02-09T08:47:18.491824",
+      "model": "gpt-4o",
+      "prompt_tokens": 3384,
+      "completion_tokens": 1024,
+      "total_tokens": 4408,
+      "cost_usd": 0.0187,
+      "context": "Stage1: Formula Generation"
+    },
+    {
+      "timestamp": "2026-02-09T08:47:26.102980",
+      "model": "gpt-4o",
+      "prompt_tokens": 3756,
+      "completion_tokens": 1007,
+      "total_tokens": 4763,
+      "cost_usd": 0.01946,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:47:37.310223",
+      "model": "gpt-4o",
+      "prompt_tokens": 3756,
+      "completion_tokens": 1016,
+      "total_tokens": 4772,
+      "cost_usd": 0.01955,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:47:46.292439",
+      "model": "gpt-4o",
+      "prompt_tokens": 3751,
+      "completion_tokens": 1000,
+      "total_tokens": 4751,
+      "cost_usd": 0.019377,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:47:58.289482",
+      "model": "gpt-4o",
+      "prompt_tokens": 3751,
+      "completion_tokens": 1016,
+      "total_tokens": 4767,
+      "cost_usd": 0.019537,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:48:09.350683",
+      "model": "gpt-4o",
+      "prompt_tokens": 3751,
+      "completion_tokens": 1053,
+      "total_tokens": 4804,
+      "cost_usd": 0.019908,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:48:18.812916",
+      "model": "gpt-4o",
+      "prompt_tokens": 3751,
+      "completion_tokens": 1019,
+      "total_tokens": 4770,
+      "cost_usd": 0.019568,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:48:25.625688",
+      "model": "gpt-4o",
+      "prompt_tokens": 3751,
+      "completion_tokens": 1007,
+      "total_tokens": 4758,
+      "cost_usd": 0.019447,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:48:47.395896",
+      "model": "gpt-4o",
+      "prompt_tokens": 3751,
+      "completion_tokens": 1016,
+      "total_tokens": 4767,
+      "cost_usd": 0.019537,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:48:54.957411",
+      "model": "gpt-4o",
+      "prompt_tokens": 3751,
+      "completion_tokens": 1016,
+      "total_tokens": 4767,
+      "cost_usd": 0.019537,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:49:02.383762",
+      "model": "gpt-4o",
+      "prompt_tokens": 3751,
+      "completion_tokens": 1016,
+      "total_tokens": 4767,
+      "cost_usd": 0.019537,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T08:49:59.283723",
+      "model": "gpt-4o",
+      "prompt_tokens": 3674,
+      "completion_tokens": 408,
+      "total_tokens": 4082,
+      "cost_usd": 0.013265,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:50:08.339010",
+      "model": "gpt-4o",
+      "prompt_tokens": 3672,
+      "completion_tokens": 405,
+      "total_tokens": 4077,
+      "cost_usd": 0.01323,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:50:17.060013",
+      "model": "gpt-4o",
+      "prompt_tokens": 3667,
+      "completion_tokens": 399,
+      "total_tokens": 4066,
+      "cost_usd": 0.013158,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:50:34.674115",
+      "model": "gpt-4o",
+      "prompt_tokens": 3666,
+      "completion_tokens": 442,
+      "total_tokens": 4108,
+      "cost_usd": 0.013585,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:50:43.878793",
+      "model": "gpt-4o",
+      "prompt_tokens": 3668,
+      "completion_tokens": 438,
+      "total_tokens": 4106,
+      "cost_usd": 0.01355,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:50:52.675036",
+      "model": "gpt-4o",
+      "prompt_tokens": 3430,
+      "completion_tokens": 402,
+      "total_tokens": 3832,
+      "cost_usd": 0.012595,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:51:05.547628",
+      "model": "gpt-4o",
+      "prompt_tokens": 3664,
+      "completion_tokens": 405,
+      "total_tokens": 4069,
+      "cost_usd": 0.01321,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:51:13.753049",
+      "model": "gpt-4o",
+      "prompt_tokens": 3665,
+      "completion_tokens": 383,
+      "total_tokens": 4048,
+      "cost_usd": 0.012993,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:51:22.482405",
+      "model": "gpt-4o",
+      "prompt_tokens": 3670,
+      "completion_tokens": 381,
+      "total_tokens": 4051,
+      "cost_usd": 0.012985,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:51:30.413366",
+      "model": "gpt-4o",
+      "prompt_tokens": 3678,
+      "completion_tokens": 407,
+      "total_tokens": 4085,
+      "cost_usd": 0.013265,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:51:39.272364",
+      "model": "gpt-4o",
+      "prompt_tokens": 3670,
+      "completion_tokens": 418,
+      "total_tokens": 4088,
+      "cost_usd": 0.013355,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T08:51:47.281649",
+      "model": "gpt-4o",
+      "prompt_tokens": 3669,
+      "completion_tokens": 392,
+      "total_tokens": 4061,
+      "cost_usd": 0.013092,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:24:25.570906",
+      "model": "gpt-4o",
+      "prompt_tokens": 1685,
+      "completion_tokens": 110,
+      "total_tokens": 1795,
+      "cost_usd": 0.005313,
+      "context": "Stage1: Hypothesis Generation"
+    },
+    {
+      "timestamp": "2026-02-09T09:24:29.219566",
+      "model": "gpt-4o",
+      "prompt_tokens": 1250,
+      "completion_tokens": 167,
+      "total_tokens": 1417,
+      "cost_usd": 0.004795,
+      "context": "Stage1: Observation Planning"
+    },
+    {
+      "timestamp": "2026-02-09T09:24:46.258657",
+      "model": "gpt-4o",
+      "prompt_tokens": 3400,
+      "completion_tokens": 1107,
+      "total_tokens": 4507,
+      "cost_usd": 0.01957,
+      "context": "Stage1: Formula Generation"
+    },
+    {
+      "timestamp": "2026-02-09T09:24:53.051666",
+      "model": "gpt-4o",
+      "prompt_tokens": 3844,
+      "completion_tokens": 1107,
+      "total_tokens": 4951,
+      "cost_usd": 0.02068,
+      "context": "Stage1: Formula Self-Correction"
+    },
+    {
+      "timestamp": "2026-02-09T09:25:57.949865",
+      "model": "gpt-4o",
+      "prompt_tokens": 3686,
+      "completion_tokens": 391,
+      "total_tokens": 4077,
+      "cost_usd": 0.013125,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:26:07.500719",
+      "model": "gpt-4o",
+      "prompt_tokens": 3682,
+      "completion_tokens": 382,
+      "total_tokens": 4064,
+      "cost_usd": 0.013025,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:26:16.562711",
+      "model": "gpt-4o",
+      "prompt_tokens": 3678,
+      "completion_tokens": 333,
+      "total_tokens": 4011,
+      "cost_usd": 0.012525,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:26:25.803338",
+      "model": "gpt-4o",
+      "prompt_tokens": 3674,
+      "completion_tokens": 407,
+      "total_tokens": 4081,
+      "cost_usd": 0.013255,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:26:34.333226",
+      "model": "gpt-4o",
+      "prompt_tokens": 3679,
+      "completion_tokens": 401,
+      "total_tokens": 4080,
+      "cost_usd": 0.013208,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:26:45.601501",
+      "model": "gpt-4o",
+      "prompt_tokens": 3677,
+      "completion_tokens": 404,
+      "total_tokens": 4081,
+      "cost_usd": 0.013233,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:26:55.662026",
+      "model": "gpt-4o",
+      "prompt_tokens": 3675,
+      "completion_tokens": 383,
+      "total_tokens": 4058,
+      "cost_usd": 0.013018,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:27:05.998911",
+      "model": "gpt-4o",
+      "prompt_tokens": 3672,
+      "completion_tokens": 380,
+      "total_tokens": 4052,
+      "cost_usd": 0.01298,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:27:14.835728",
+      "model": "gpt-4o",
+      "prompt_tokens": 3671,
+      "completion_tokens": 383,
+      "total_tokens": 4054,
+      "cost_usd": 0.013007,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:27:24.462229",
+      "model": "gpt-4o",
+      "prompt_tokens": 3685,
+      "completion_tokens": 379,
+      "total_tokens": 4064,
+      "cost_usd": 0.013003,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:27:36.829463",
+      "model": "gpt-4o",
+      "prompt_tokens": 3677,
+      "completion_tokens": 449,
+      "total_tokens": 4126,
+      "cost_usd": 0.013683,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T09:27:47.354268",
+      "model": "gpt-4o",
+      "prompt_tokens": 3695,
+      "completion_tokens": 447,
+      "total_tokens": 4142,
+      "cost_usd": 0.013708,
+      "context": "Stage2: Distribution Validation"
+    },
+    {
+      "timestamp": "2026-02-09T10:10:46.034785",
+      "model": "gpt-4o",
+      "prompt_tokens": 1906,
+      "completion_tokens": 109,
+      "total_tokens": 2015,
+      "cost_usd": 0.005855,
+      "context": "Stage1: Hypothesis Generation"
+    },
+    {
+      "timestamp": "2026-02-09T10:10:49.305084",
+      "model": "gpt-4o",
+      "prompt_tokens": 1249,
+      "completion_tokens": 166,
+      "total_tokens": 1415,
+      "cost_usd": 0.004783,
+      "context": "Stage1: Observation Planning"
+    },
+    {
+      "timestamp": "2026-02-09T10:11:11.560977",
+      "model": "gpt-4o",
+      "prompt_tokens": 3408,
+      "completion_tokens": 1273,
+      "total_tokens": 4681,
+      "cost_usd": 0.02125,
+      "context": "Stage1: Formula Generation"
+    },
+    {
+      "timestamp": "2026-02-09T10:11:31.636715",
+      "model": "gpt-4o",
+      "prompt_tokens": 3490,
+      "completion_tokens": 1438,
+      "total_tokens": 4928,
+      "cost_usd": 0.023105,
+      "context": "Stage1: Formula Generation"
+    },
+    {
+      "timestamp": "2026-02-09T10:11:53.605274",
+      "model": "gpt-4o",
+      "prompt_tokens": 3681,
+      "completion_tokens": 1354,
+      "total_tokens": 5035,
+      "cost_usd": 0.022743,
+      "context": "Stage1: Formula Generation"
+    }
+  ]
+}

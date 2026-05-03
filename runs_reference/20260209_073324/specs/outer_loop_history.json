@@ -1,0 +1,115 @@
+{
+  "iterations": [
+    {
+      "iteration": 1,
+      "avg_is_sharpe": 0.32942481394010115,
+      "avg_oos_sharpe": -0.13494228005036685,
+      "n_combinations": 21,
+      "refinement": {
+        "inner_loop": {
+          "iterations": [
+            {
+              "iteration": 1,
+              "n_total": 12,
+              "n_passed": 11,
+              "n_failed": 1,
+              "pass_rate": 0.9166666666666666,
+              "failed_formulas": [
+                "formula011"
+              ]
+            },
+            {
+              "iteration": 2,
+              "n_total": 12,
+              "n_passed": 11,
+              "n_failed": 1,
+              "pass_rate": 0.9166666666666666,
+              "failed_formulas": [
+                "formula011_v1"
+              ]
+            },
+            {
+              "iteration": 3,
+              "n_total": 12,
+              "n_passed": 11,
+              "n_failed": 1,
+              "pass_rate": 0.9166666666666666,
+              "failed_formulas": [
+                "formula011_v2"
+              ]
+            }
+          ],
+          "final_iteration": 3,
+          "converged": false
+        }
+      }
+    },
+    {
+      "iteration": 2,
+      "avg_is_sharpe": 0.7382906384997548,
+      "avg_oos_sharpe": -0.23808602664305256,
+      "n_combinations": 26,
+      "refinement": {
+        "inner_loop": {
+          "iterations": [
+            {
+              "iteration": 1,
+              "n_total": 12,
+              "n_passed": 12,
+              "n_failed": 0,
+              "pass_rate": 1.0,
+              "failed_formulas": []
+            }
+          ],
+          "final_iteration": 1,
+          "converged": true
+        }
+      }
+    },
+    {
+      "iteration": 3,
+      "avg_is_sharpe": 0.8206855671160549,
+      "avg_oos_sharpe": -0.2274685321070013,
+      "n_combinations": 20,
+      "refinement": {
+        "inner_loop": {
+          "iterations": [
+            {
+              "iteration": 1,
+              "n_total": 12,
+              "n_passed": 12,
+              "n_failed": 0,
+              "pass_rate": 1.0,
+              "failed_formulas": []
+            }
+          ],
+          "final_iteration": 1,
+          "converged": true
+        }
+      }
+    },
+    {
+      "iteration": 4,
+      "avg_is_sharpe": 0.7717997842262136,
+      "avg_oos_sharpe": -0.08191533868631945,
+      "n_combinations": 49,
+      "refinement": {
+        "inner_loop": {
+          "iterations": [
+            {
+              "iteration": 1,
+              "n_total": 12,
+              "n_passed": 12,
+              "n_failed": 0,
+              "pass_rate": 1.0,
+              "failed_formulas": []
+            }
+          ],
+          "final_iteration": 1,
+          "converged": true
+        }
+      }
+    }
+  ],
+  "final_iteration": 4
+}

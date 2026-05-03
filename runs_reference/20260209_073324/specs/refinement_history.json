@@ -1,0 +1,94 @@
+{
+  "outer_iter_1": {
+    "iterations": [
+      {
+        "iteration": 1,
+        "n_total": 12,
+        "n_passed": 11,
+        "n_failed": 1,
+        "pass_rate": 0.9166666666666666,
+        "failed_formulas": [
+          "formula011"
+        ]
+      },
+      {
+        "iteration": 2,
+        "n_total": 12,
+        "n_passed": 11,
+        "n_failed": 1,
+        "pass_rate": 0.9166666666666666,
+        "failed_formulas": [
+          "formula011_v1"
+        ]
+      },
+      {
+        "iteration": 3,
+        "n_total": 12,
+        "n_passed": 11,
+        "n_failed": 1,
+        "pass_rate": 0.9166666666666666,
+        "failed_formulas": [
+          "formula011_v2"
+        ]
+      }
+    ],
+    "final_iteration": 3,
+    "converged": false
+  },
+  "outer_iter_2": {
+    "iterations": [
+      {
+        "iteration": 1,
+        "n_total": 12,
+        "n_passed": 12,
+        "n_failed": 0,
+        "pass_rate": 1.0,
+        "failed_formulas": []
+      }
+    ],
+    "final_iteration": 1,
+    "converged": true
+  },
+  "outer_iter_3": {
+    "iterations": [
+      {
+        "iteration": 1,
+        "n_total": 12,
+        "n_passed": 12,
+        "n_failed": 0,
+        "pass_rate": 1.0,
+        "failed_formulas": []
+      }
+    ],
+    "final_iteration": 1,
+    "converged": true
+  },
+  "outer_iter_4": {
+    "iterations": [
+      {
+        "iteration": 1,
+        "n_total": 12,
+        "n_passed": 12,
+        "n_failed": 0,
+        "pass_rate": 1.0,
+        "failed_formulas": []
+      }
+    ],
+    "final_iteration": 1,
+    "converged": true
+  },
+  "outer_iter_5": {
+    "iterations": [
+      {
+        "iteration": 1,
+        "n_total": 0,
+        "n_passed": 0,
+        "n_failed": 0,
+        "pass_rate": 0.0,
+        "failed_formulas": []
+      }
+    ],
+    "final_iteration": 1,
+    "converged": true
+  }
+}

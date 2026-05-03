@@ -1,0 +1,407 @@
+{
+  "timestamp": "2026-02-04T10:07:52+00:00",
+  "stage": "stage2",
+  "kind": "formula_validation",
+  "formula": {
+    "formula_id": "formula005_v1",
+    "formula_name": "formula005_v1",
+    "definition": "TS_STD(volume, 5) / TS_MEAN(volume, 5)",
+    "polarity": "higher_is_more_true",
+    "obs_id": "obs_volume_increase",
+    "obs_description": "There is a significant increase in trading volume, suggesting heightened trading activity and involvement of liquidity providers and short-term traders."
+  },
+  "input": {
+    "distribution_summary": "[정렬 기준] Q1→Qk = obs truth(약→강). polarity=higher_is_more_true\n[bin 개수] 5\n[샘플 수] Q1:139246, Q2:139245, Q3:139245, Q4:139245, Q5:139245\n\n### [MAG] H - L (변동폭)\nmean: 0.1748 → 0.3331 (+90.6%)\nstd: 0.2752 → 0.4554 (+65.5%)\nskewness: 7.2080 → 4.6202 (-35.9%)\nkurtosis: 132.9778 → 42.7492 (-67.9%)\nq90: 0.4047 → 0.7735\nmean 추이: Q1=0.1748 → Q2=0.1975 → Q3=0.2241 → Q4=0.2584 → Q5=0.3331\nskewness 추이: Q1=7.2080 → Q2=5.4345 → Q3=5.0767 → Q4=4.8176 → Q5=4.6202\nkurtosis 추이: Q1=132.9778 → Q2=57.5643 → Q3=47.2956 → Q4=43.4262 → Q5=42.7492\n\n### [DIR] C - O (방향성: 양수=상승, 음수=하락)\nmean: -0.0149 → 0.0663 (+544.0%)\nstd: 0.1739 → 0.3493 (+100.9%)\nskewness: -0.1502 → 0.9291 (+718.7%)\nkurtosis: 174.6533 → 36.1537 (-79.3%)\nq90: 0.0776 → 0.3409\nmean 추이: Q1=-0.0149 → Q2=-0.0166 → Q3=-0.0097 → Q4=0.0066 → Q5=0.0663\nskewness 추이: Q1=-0.1502 → Q2=-1.7421 → Q3=-0.2306 → Q4=-0.2653 → Q5=0.9291\nkurtosis 추이: Q1=174.6533 → Q2=60.8404 → Q3=54.8176 → Q4=55.2426 → Q5=36.1537\n\n### [VOL] V (거래량)\nmean: 482998.7812 → 1279274.1250 (+164.9%)\nstd: 1019317.6250 → 2938396.0000 (+188.3%)\nskewness: 17.2293 → 23.2262 (+34.8%)\nkurtosis: 634.3004 → 1079.4471 (+70.2%)\nq90: 1065145.5625 → 2773578.5000\nmean 추이: Q1=482998.7812 → Q2=554933.0625 → Q3=641425.0000 → Q4=795038.7500 → Q5=1279274.1250\nskewness 추이: Q1=17.2293 → Q2=19.1860 → Q3=26.8795 → Q4=22.4828 → Q5=23.2262\nkurtosis 추이: Q1=634.3004 → Q2=793.5275 → Q3=1604.5172 → Q4=1180.2651 → Q5=1079.4471\n\n### [POS] (C - L) / (H - L) (상대적 위치: 0=저가마감, 1=고가마감)\nmean: 0.4674 → 0.5635 (+20.6%)\nstd: 0.2864 → 0.3040 (+6.1%)\nskewness: 0.1427 → -0.2892 (-302.7%)\nkurtosis: -1.0862 → -1.1443 (-5.4%)\nq90: 0.8750 → 0.9500\nmean 추이: Q1=0.4674 → Q2=0.4685 → Q3=0.4825 → Q4=0.5062 → Q5=0.5635\nskewness 추이: Q1=0.1427 → Q2=0.1399 → Q3=0.0685 → Q4=-0.0390 → Q5=-0.2892\nkurtosis 추이: Q1=-1.0862 → Q2=-1.1849 → Q3=-1.2519 → Q4=-1.2743 → Q5=-1.1443\n",
+    "evidence_packet": {
+      "meta": {
+        "polarity": "higher_is_more_true",
+        "actual_n_bins": 5,
+        "bin_order": "Q1=obs_weak → Qk=obs_strong"
+      },
+      "bins": [
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5"
+      ],
+      "counts": {
+        "Q1": 139246,
+        "Q2": 139245,
+        "Q3": 139245,
+        "Q4": 139245,
+        "Q5": 139245
+      },
+      "features": {
+        "VOL": {
+          "mean": [
+            482998.78125,
+            554933.0625,
+            641425.0,
+            795038.75,
+            1279274.125
+          ],
+          "median": [
+            230838.21875,
+            266332.90625,
+            310726.875,
+            391080.9375,
+            619031.5
+          ],
+          "std": [
+            1019317.625,
+            1210559.25,
+            1448769.0,
+            1713939.875,
+            2938396.0
+          ],
+          "q10": [
+            53710.580078,
+            63807.048438,
+            74250.307813,
+            93568.0625,
+            145335.55
+          ],
+          "q90": [
+            1065145.5625,
+            1203922.525,
+            1398436.25,
+            1744491.175,
+            2773578.5
+          ],
+          "skewness": [
+            17.229258,
+            19.185976,
+            26.879499,
+            22.482847,
+            23.226183
+          ],
+          "kurtosis": [
+            634.300354,
+            793.527466,
+            1604.517212,
+            1180.265137,
+            1079.447144
+          ],
+          "count": [
+            139246,
+            139245,
+            139245,
+            139245,
+            139245
+          ],
+          "q1_to_qk_change_pct": 164.86,
+          "skewness_change_pct": 34.81,
+          "kurtosis_change_pct": 70.18,
+          "monotonicity": {
+            "mean": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "median": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "std": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "q10": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "q90": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "skewness": {
+              "score": 0.75,
+              "direction": "increasing"
+            },
+            "kurtosis": {
+              "score": 0.5,
+              "direction": "increasing"
+            }
+          }
+        },
+        "MAG": {
+          "mean": [
+            0.17477,
+            0.197522,
+            0.224061,
+            0.258398,
+            0.333091
+          ],
+          "median": [
+            0.089663,
+            0.101222,
+            0.11516,
+            0.134787,
+            0.18487
+          ],
+          "std": [
+            0.27517,
+            0.299683,
+            0.335674,
+            0.377661,
+            0.455351
+          ],
+          "q10": [
+            0.018747,
+            0.021782,
+            0.024795,
+            0.028999,
+            0.039403
+          ],
+          "q90": [
+            0.404658,
+            0.461526,
+            0.52851,
+            0.605298,
+            0.773492
+          ],
+          "skewness": [
+            7.207979,
+            5.434536,
+            5.076723,
+            4.817578,
+            4.620202
+          ],
+          "kurtosis": [
+            132.977753,
+            57.564342,
+            47.295635,
+            43.426193,
+            42.749203
+          ],
+          "count": [
+            139246,
+            139245,
+            139245,
+            139245,
+            139245
+          ],
+          "q1_to_qk_change_pct": 90.59,
+          "skewness_change_pct": -35.9,
+          "kurtosis_change_pct": -67.85,
+          "monotonicity": {
+            "mean": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "median": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "std": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "q10": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "q90": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "skewness": {
+              "score": 1.0,
+              "direction": "decreasing"
+            },
+            "kurtosis": {
+              "score": 1.0,
+              "direction": "decreasing"
+            }
+          }
+        },
+        "DIR": {
+          "mean": [
+            -0.014923,
+            -0.016614,
+            -0.009652,
+            0.006624,
+            0.066263
+          ],
+          "median": [
+            -0.002516,
+            -0.004269,
+            -0.002044,
+            0.003669,
+            0.031113
+          ],
+          "std": [
+            0.173874,
+            0.196741,
+            0.233238,
+            0.276387,
+            0.34931
+          ],
+          "q10": [
+            -0.115464,
+            -0.141383,
+            -0.158076,
+            -0.168645,
+            -0.158522
+          ],
+          "q90": [
+            0.077608,
+            0.097499,
+            0.131601,
+            0.186583,
+            0.340932
+          ],
+          "skewness": [
+            -0.150156,
+            -1.742106,
+            -0.23061,
+            -0.265278,
+            0.929077
+          ],
+          "kurtosis": [
+            174.65332,
+            60.840389,
+            54.817616,
+            55.242577,
+            36.153728
+          ],
+          "count": [
+            139246,
+            139245,
+            139245,
+            139245,
+            139245
+          ],
+          "q1_to_qk_change_pct": 544.03,
+          "skewness_change_pct": 718.74,
+          "kurtosis_change_pct": -79.3,
+          "monotonicity": {
+            "mean": {
+              "score": 0.75,
+              "direction": "increasing"
+            },
+            "median": {
+              "score": 0.75,
+              "direction": "increasing"
+            },
+            "std": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "q10": {
+              "score": 0.75,
+              "direction": "decreasing"
+            },
+            "q90": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "skewness": {
+              "score": 0.5,
+              "direction": "increasing"
+            },
+            "kurtosis": {
+              "score": 0.75,
+              "direction": "decreasing"
+            }
+          }
+        },
+        "POS": {
+          "mean": [
+            0.46739,
+            0.468517,
+            0.482548,
+            0.506181,
+            0.563466
+          ],
+          "median": [
+            0.45245,
+            0.450002,
+            0.47619,
+            0.509434,
+            0.609756
+          ],
+          "std": [
+            0.286389,
+            0.297103,
+            0.302609,
+            0.305357,
+            0.30396
+          ],
+          "q10": [
+            0.088609,
+            0.076927,
+            0.076924,
+            0.083334,
+            0.107144
+          ],
+          "q90": [
+            0.875001,
+            0.892855,
+            0.903226,
+            0.916667,
+            0.95
+          ],
+          "skewness": [
+            0.142676,
+            0.139879,
+            0.068533,
+            -0.038974,
+            -0.289195
+          ],
+          "kurtosis": [
+            -1.086152,
+            -1.184889,
+            -1.251852,
+            -1.274342,
+            -1.144313
+          ],
+          "count": [
+            138009,
+            139105,
+            139153,
+            139146,
+            138900
+          ],
+          "q1_to_qk_change_pct": 20.56,
+          "skewness_change_pct": -302.69,
+          "kurtosis_change_pct": -5.35,
+          "monotonicity": {
+            "mean": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "median": {
+              "score": 0.75,
+              "direction": "increasing"
+            },
+            "std": {
+              "score": 0.75,
+              "direction": "increasing"
+            },
+            "q10": {
+              "score": 0.5,
+              "direction": "increasing"
+            },
+            "q90": {
+              "score": 1.0,
+              "direction": "increasing"
+            },
+            "skewness": {
+              "score": 1.0,
+              "direction": "decreasing"
+            },
+            "kurtosis": {
+              "score": 0.75,
+              "direction": "decreasing"
+            }
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "verdict": "PASS",
+    "reasoning": "The formula suggests a noticeable increase in trading volume, which aligns with the observation of heightened trading activity. DIR shows a consistent location shift with both mean and median increasing across bins, indicating a directional change. Tail amplification is evident in DIR, with q90 increasing and kurtosis decreasing, suggesting a widening distribution. The evidence is consistent with multi-statistic combinations, as DIR's mean and median both increase, and q90 and kurtosis provide tail evidence. There is no explicit contradiction with the observation text, as the formula's polarity aligns with increased volume."
+  }
+}

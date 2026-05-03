@@ -1,0 +1,19 @@
+{
+  "source_file": "/home/dgu/fin/AlphaAgent/examples_ous_bundle/react_validation_agent_233236_998002_formula011.json",
+  "created_at": "2026-02-04T04:24:16Z",
+  "formula": {
+    "formula_id": "formula009",
+    "formula_name": "formula009",
+    "definition": "TS_RANK(close - low, 5)",
+    "polarity": "higher_is_more_true",
+    "obs_id": "obs_intraday_recovery",
+    "obs_description": "The price shows signs of recovering from intraday lows, suggesting potential early stabilization or buying interest emerging."
+  },
+  "normalized_expr": "TS_RANK(close - low, 5)",
+  "daily_pv_source": "/home/dgu/fin/AlphaAgent/git_ignore_folder/factor_implementation_source_data/daily_pv.h5",
+  "notes": [
+    "Expression normalized to Qlib-style vars ($close/$open/...).",
+    "factor.py uses alphaagent expr_parser + function_lib to evaluate on daily_pv.h5.",
+    "Run `python factor.py` (or stage2.py --run-factor-if-missing) to create result.h5."
+  ]
+}

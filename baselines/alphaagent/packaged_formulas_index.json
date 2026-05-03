@@ -1,0 +1,8 @@
+[
+  {
+    "formula_id": "formula010",
+    "formula_name": "formula010",
+    "workspace": "/home/dgu/fin/AlphaAgent/git_ignore_folder/RD-Agent_workspace/1ea8d655148c40b784e61b897bbc6b36",
+    "expr": "(close - low) / (high - low + 1e-8)"
+  }
+]

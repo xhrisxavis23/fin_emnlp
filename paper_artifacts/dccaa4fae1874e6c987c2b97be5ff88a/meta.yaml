@@ -1,0 +1,14 @@
+artifact_uri: file:C:\Users\DESKTOP\mlruns/901833908094539894/dccaa4fae1874e6c987c2b97be5ff88a/artifacts
+end_time: 1770556582083
+entry_point_name: ''
+experiment_id: '901833908094539894'
+lifecycle_stage: active
+run_id: dccaa4fae1874e6c987c2b97be5ff88a
+run_name: mlflow_recorder
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770556488569
+status: 3
+tags: []
+user_id: DESKTOP

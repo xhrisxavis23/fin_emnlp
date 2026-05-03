@@ -1,0 +1,60 @@
+{
+  "total_calls": 119,
+  "total_tokens": 489568,
+  "total_prompt_tokens": 419603,
+  "total_completion_tokens": 69965,
+  "total_cost_usd": 1.7487,
+  "by_model": {
+    "gpt-4o": {
+      "calls": 119,
+      "total_tokens": 489568,
+      "prompt_tokens": 419603,
+      "completion_tokens": 69965,
+      "cost_usd": 1.7487
+    }
+  },
+  "by_context": {
+    "Stage1: Hypothesis Generation": {
+      "calls": 5,
+      "total_tokens": 7833,
+      "prompt_tokens": 7342,
+      "completion_tokens": 491,
+      "cost_usd": 0.0233
+    },
+    "Stage1: Observation Planning": {
+      "calls": 5,
+      "total_tokens": 6994,
+      "prompt_tokens": 6191,
+      "completion_tokens": 803,
+      "cost_usd": 0.0235
+    },
+    "Stage1: Formula Generation": {
+      "calls": 7,
+      "total_tokens": 32585,
+      "prompt_tokens": 24148,
+      "completion_tokens": 8437,
+      "cost_usd": 0.1447
+    },
+    "Stage1: Formula Self-Correction": {
+      "calls": 28,
+      "total_tokens": 134165,
+      "prompt_tokens": 105361,
+      "completion_tokens": 28804,
+      "cost_usd": 0.5514
+    },
+    "Stage2: Distribution Validation": {
+      "calls": 72,
+      "total_tokens": 293746,
+      "prompt_tokens": 264353,
+      "completion_tokens": 29393,
+      "cost_usd": 0.9548
+    },
+    "Stage1: Formula Refinement": {
+      "calls": 2,
+      "total_tokens": 14245,
+      "prompt_tokens": 12208,
+      "completion_tokens": 2037,
+      "cost_usd": 0.0509
+    }
+  }
+}

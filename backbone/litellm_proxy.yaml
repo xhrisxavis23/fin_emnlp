@@ -1,0 +1,8 @@
+model_list:
+  - model_name: claude-tools
+    litellm_params:
+      model: anthropic/claude-3-5-sonnet-latest
+
+  - model_name: gemini-tools
+    litellm_params:
+      model: gemini/gemini-3-pro-preview
