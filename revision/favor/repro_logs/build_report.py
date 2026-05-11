@@ -6,7 +6,10 @@ Output: revision/favor/repro_logs/report.html
 """
 from __future__ import annotations
 
+import base64
+import io
 import json
+import pickle
 import sys
 from datetime import datetime
 from html import escape
@@ -15,6 +18,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]      # revision/favor/
 RUNS_DIR = ROOT / "runs"
 OUT = ROOT / "repro_logs" / "favor_dashboard.html"
+
+try:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    _HAS_MPL = True
+except Exception:
+    _HAS_MPL = False
 
 PAPER = {
     "label": "Paper Table 1 (CSI 500, OOS-oracle combo_51)",
@@ -47,6 +58,93 @@ def safe_json(p: Path):
         return json.load(open(p, encoding="utf-8"))
     except Exception:
         return None
+
+
+def _load_report(pkl: Path):
+    if not pkl.exists():
+        return None
+    try:
+        with open(pkl, "rb") as f:
+            return pickle.load(f)
+    except Exception:
+        return None
+
+
+def _cumret(df, fee: bool = True):
+    """qlib report_normal_1day → cumulative return Series."""
+    if df is None or "return" not in df.columns:
+        return None
+    net = df["return"] - df["cost"] if (fee and "cost" in df.columns) else df["return"]
+    return (1.0 + net).cumprod() - 1.0
+
+
+def cumret_chart_b64(run_dir: Path, is_best_idx, oracle_idx) -> str | None:
+    """Render IS-best + oracle portfolio cum-ret + benchmark, return base64 PNG (or None)."""
+    if not _HAS_MPL or is_best_idx is None:
+        return None
+    art = run_dir / "qlib_artifacts" / "iter_1"
+    if not art.exists():
+        return None
+
+    def _series(combo_idx, split):
+        if combo_idx is None:
+            return None
+        rep = _load_report(art / f"combo_{combo_idx}" / split / "report_normal_1day.pkl")
+        return _cumret(rep)
+
+    def _bench(combo_idx, split):
+        if combo_idx is None:
+            return None
+        rep = _load_report(art / f"combo_{combo_idx}" / split / "report_normal_1day.pkl")
+        if rep is None or "bench" not in rep.columns:
+            return None
+        return (1.0 + rep["bench"]).cumprod() - 1.0
+
+    is_best_is  = _series(is_best_idx, "is")
+    is_best_oos = _series(is_best_idx, "oos")
+    oracle_oos  = _series(oracle_idx, "oos") if oracle_idx and oracle_idx != is_best_idx else None
+    bench_is    = _bench(is_best_idx, "is")
+    bench_oos   = _bench(is_best_idx, "oos")
+
+    if is_best_oos is None and is_best_is is None:
+        return None
+
+    fig, ax = plt.subplots(figsize=(9, 3.6), dpi=100)
+    fig.patch.set_facecolor("#0b1220")
+    ax.set_facecolor("#0b1220")
+
+    if bench_is is not None:
+        ax.plot(bench_is.index,  bench_is.values,  color="#64748b", lw=1.0, alpha=0.7, label="benchmark (IS)")
+    if bench_oos is not None:
+        ax.plot(bench_oos.index, bench_oos.values, color="#94a3b8", lw=1.0, alpha=0.9, label="benchmark (OOS)")
+
+    if is_best_is is not None:
+        ax.plot(is_best_is.index,  is_best_is.values,  color="#f59e0b", lw=1.4, alpha=0.6, label=f"IS-best #{is_best_idx} (IS)")
+    if is_best_oos is not None:
+        ax.plot(is_best_oos.index, is_best_oos.values, color="#f97316", lw=2.0,            label=f"IS-best #{is_best_idx} (OOS)")
+    if oracle_oos is not None:
+        ax.plot(oracle_oos.index,  oracle_oos.values,  color="#a78bfa", lw=1.6, ls="--",   label=f"oracle #{oracle_idx} (OOS)")
+
+    # IS/OOS boundary
+    if is_best_oos is not None and len(is_best_oos) > 0:
+        ax.axvline(is_best_oos.index[0], color="#475569", lw=0.8, ls=":", alpha=0.7)
+        ax.text(is_best_oos.index[0], ax.get_ylim()[1], "  OOS →",
+                color="#94a3b8", fontsize=9, va="top")
+
+    ax.axhline(0, color="#475569", lw=0.6, ls="-", alpha=0.6)
+    ax.set_title("Cumulative excess return (net of cost)", color="#e2e8f0", fontsize=11, loc="left")
+    ax.set_ylabel("cumret", color="#94a3b8", fontsize=9)
+    ax.tick_params(colors="#94a3b8", labelsize=8)
+    for spine in ax.spines.values():
+        spine.set_color("#334155")
+    ax.grid(True, color="#1e293b", lw=0.5)
+    ax.legend(loc="upper left", fontsize=8, facecolor="#1e293b", edgecolor="#334155", labelcolor="#cbd5e1", framealpha=0.85)
+    fig.tight_layout(pad=0.5)
+
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", facecolor=fig.get_facecolor(), bbox_inches="tight", dpi=100)
+    plt.close(fig)
+    return base64.b64encode(buf.getvalue()).decode("ascii")
 
 
 def metrics(combo: dict, sample: str) -> dict | None:
@@ -88,8 +186,9 @@ def collect_run(d: Path) -> dict:
             "entry_confirm": s4.get("entry_confirm_rule"),
             "native_strategy": s4.get("native_strategy"),
             "combo_pass_rate": s3.get("combination_pass_rate_threshold"),
-            "in_sample": f"{ds.get('in_sample_start')} ~ {ds.get('in_sample_end')}",
-            "out_sample": f"{ds.get('out_sample_start')} ~ {ds.get('out_sample_end')}",
+            "train_period": f"{ds.get('train_start')} ~ {ds.get('train_end')}" if ds.get("train_start") else None,
+            "val_period":   f"{ds.get('val_start')} ~ {ds.get('val_end')}"     if ds.get("val_start")   else None,
+            "test_period":  f"{ds.get('test_start')} ~ {ds.get('test_end')}"   if ds.get("test_start")  else None,
         })
 
     hyp = safe_json(d / "specs" / "hypothesis.json")
@@ -398,8 +497,9 @@ def render_run_detail(r: dict) -> str:
         ("entry_confirm_rule", r.get("entry_confirm")),
         ("native_strategy", r.get("native_strategy")),
         ("combo_pass_rate", r.get("combo_pass_rate")),
-        ("In-sample", r.get("in_sample")),
-        ("Out-of-sample", r.get("out_sample")),
+        ("Train (IS, Stage 2/3)", r.get("train_period")),
+        ("Val (Optuna)",          r.get("val_period")),
+        ("Test (OOS)",            r.get("test_period")),
         ("Run ID", r.get("run_id")),
     ]
     settings_html = "<div class='detail-grid'>" + "".join(
@@ -407,6 +507,18 @@ def render_run_detail(r: dict) -> str:
         for k, v in settings
     ) + "</div>"
     sections.append(("실험 세팅", settings_html))
+
+    # Cumulative return chart (IS-best + oracle + benchmark)
+    if r.get("cumret_b64"):
+        sections.append((
+            "Cumulative return — IS-best vs oracle vs benchmark",
+            f"<div><img src='data:image/png;base64,{r['cumret_b64']}' "
+            "style='width:100%; max-width:980px; border-radius:6px; border:1px solid #334155;'/></div>"
+            "<div class='muted' style='font-size:11px; margin-top:6px;'>"
+            "IS 구간 (옅은 색) + OOS 구간 (진한 색). 점선=paper 의 oracle combo (OOS IR 1위) cum-ret. "
+            "Y축은 net excess return (수익률 − 거래비용). 회색=benchmark."
+            "</div>"
+        ))
 
     # Concept
     if r.get("concept"):
@@ -589,7 +701,15 @@ def main() -> None:
             info["verdict_cls"] = info["verdict"]["cls"]
             info["verdict_label"] = info["verdict"]["label"]
 
+            # Cumulative return chart (base64-embedded PNG)
+            try:
+                info["cumret_b64"] = cumret_chart_b64(d, info.get("is_best_combo"), info.get("oracle_combo"))
+            except Exception as e:
+                print(f"  [cumret skip] {d.name}: {e}", file=sys.stderr)
+                info["cumret_b64"] = None
+
             info["detail_html"] = render_run_detail(info)
+            info.pop("cumret_b64", None)  # avoid duplicate PNG in JSON
             rows.append(info)
 
     # Build HTML
