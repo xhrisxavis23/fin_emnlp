@@ -236,3 +236,12 @@ done
 # wait for any remaining
 wait
 echo "[$(date +%F\ %T)] sweep complete; ${#JOBS[@]} jobs processed" | tee -a "$MASTER_LOG"
+
+# ─── rebuild dashboard ───────────────────────────────────────────────
+echo "[$(date +%F\ %T)] rebuilding favor_dashboard.html ..." | tee -a "$MASTER_LOG"
+PY_BIN="${PY_BIN:-/home/dgu/.conda/envs/quant/bin/python}"
+if "$PY_BIN" "$LOG_DIR/build_report.py" 2>&1 | tee -a "$MASTER_LOG"; then
+    echo "[$(date +%F\ %T)] dashboard rebuilt: $LOG_DIR/favor_dashboard.html" | tee -a "$MASTER_LOG"
+else
+    echo "[$(date +%F\ %T)] dashboard rebuild failed (sweep results still in runs/)" | tee -a "$MASTER_LOG"
+fi
