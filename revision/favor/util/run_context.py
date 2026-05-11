@@ -34,7 +34,14 @@ class RunContext:
     @classmethod
     def create(cls, base_dir: Path | str = "runs") -> "RunContext":
         base_dir = Path(base_dir)
-        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        # 1) honor explicit FAVOR_RUN_ID (set by sweep runners to label runs deterministically)
+        # 2) otherwise use microsecond precision so parallel forks never share a run_id
+        import os
+        env_run_id = os.environ.get("FAVOR_RUN_ID")
+        if env_run_id:
+            run_id = env_run_id
+        else:
+            run_id = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         root = base_dir / run_id
 
         # 하위 디렉토리들 미리 생성

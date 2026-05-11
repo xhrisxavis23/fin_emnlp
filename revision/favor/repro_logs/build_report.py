@@ -1,0 +1,652 @@
+"""Generate a single-file HTML report from all FaVOR runs under revision/favor/runs/.
+
+Re-run anytime; the script is idempotent and tolerates incomplete (in-progress) runs.
+
+Output: revision/favor/repro_logs/report.html
+"""
+from __future__ import annotations
+
+import json
+import sys
+from datetime import datetime
+from html import escape
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]      # revision/favor/
+RUNS_DIR = ROOT / "runs"
+OUT = ROOT / "repro_logs" / "favor_dashboard.html"
+
+PAPER = {
+    "label": "Paper Table 1 (CSI 500, OOS-oracle combo_51)",
+    "hypothesis_id": "BH_Continuation_Breakout_5D_v1",
+    "n_combos": 84,
+    "is_best_oos_ir": -0.5621,   # honest IS-best (combo 15) → catastrophic OOS
+    "is_best_oos_ar": -0.1406,
+    "oracle_oos_ir": 0.6470,     # what the paper actually printed
+    "oracle_oos_ar": 0.1397,
+    "oracle_oos_mdd": -0.2224,
+    "oracle_oos_cr": 0.7104,
+    "is_ir": 0.4388,             # combo_51's IS metrics
+    "concept": (
+        "After a breakout to a new high, a pullback toward the 20-day moving average "
+        "often serves as support, increasing the probability of price revisiting the "
+        "breakout level or exceeding it."
+    ),
+    "horizon": 5,
+    "stop_loss": -0.10,
+    "n_trials": 50,
+    "model": "gpt-4o (paper)",
+    "is_baseline": True,
+}
+
+
+def safe_json(p: Path):
+    if not p.exists():
+        return None
+    try:
+        return json.load(open(p, encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def metrics(combo: dict, sample: str) -> dict | None:
+    if not combo:
+        return None
+    s = combo.get(sample) or {}
+    m = s.get("excess_return_with_cost") or {}
+    if not m:
+        return None
+    return {
+        "AR": m.get("annualized_return"),
+        "IR": m.get("information_ratio"),
+        "MDD": m.get("max_drawdown"),
+        "CR": m.get("net_return"),
+        "mean": m.get("mean"),
+        "std": m.get("std"),
+    }
+
+
+def collect_run(d: Path) -> dict:
+    info = {"run_id": d.name, "status": "incomplete", "path": str(d.relative_to(ROOT.parent.parent))}
+
+    cfg = safe_json(d / "run_config.json")
+    if cfg:
+        info["concept"] = cfg.get("concept", "")
+        c = cfg.get("config", {})
+        s4 = c.get("stage4", {})
+        s3 = c.get("stage3", {})
+        llm = c.get("llm", {})
+        ds = cfg.get("data_split", {})
+        info.update({
+            "model": llm.get("model_name"),
+            "temperature": llm.get("temperature"),
+            "horizon": s4.get("horizon_days"),
+            "stop_loss": s4.get("stop_loss_threshold"),
+            "n_trials": s4.get("n_trials"),
+            "threshold_min": s4.get("threshold_min"),
+            "threshold_max": s4.get("threshold_max"),
+            "entry_confirm": s4.get("entry_confirm_rule"),
+            "native_strategy": s4.get("native_strategy"),
+            "combo_pass_rate": s3.get("combination_pass_rate_threshold"),
+            "in_sample": f"{ds.get('in_sample_start')} ~ {ds.get('in_sample_end')}",
+            "out_sample": f"{ds.get('out_sample_start')} ~ {ds.get('out_sample_end')}",
+        })
+
+    hyp = safe_json(d / "specs" / "hypothesis.json")
+    if hyp:
+        outer = hyp.get("outer_iter_1") or next(iter(hyp.values()), {})
+        if isinstance(outer, dict) and outer.get("hypotheses"):
+            h = outer["hypotheses"][0]
+            info["hypothesis_id"] = h.get("hypothesis_id")
+            info["hypothesis_name"] = h.get("hypothesis_name")
+            info["behavioral"] = h.get("behavioral_description")
+
+    fbundle = safe_json(d / "specs" / "formula_bundle.json")
+    if fbundle:
+        outer = fbundle.get("outer_iter_1") or next(iter(fbundle.values()), {})
+        if isinstance(outer, dict):
+            info["formulas"] = outer.get("formulas", [])
+            info["observations"] = outer.get("observation_descriptions", [])
+
+    s4s = safe_json(d / "specs" / "stage4_summary.json")
+    if s4s:
+        outer = s4s.get("outer_iter_1") or next(iter(s4s.values()), {})
+        if isinstance(outer, dict):
+            combos = outer.get("all_combinations", [])
+            info["n_combos"] = len(combos)
+            info["status"] = "complete" if combos else "stage4_empty"
+            info["hypothesis_id"] = outer.get("hypothesis_id", info.get("hypothesis_id"))
+
+            if combos:
+                # IS-best (honest selection)
+                bis = max(combos, key=lambda c: (c.get("insample", {}).get("excess_return_with_cost", {}) or {}).get("information_ratio", -1e9))
+                bos = max(combos, key=lambda c: (c.get("outsample", {}).get("excess_return_with_cost", {}) or {}).get("information_ratio", -1e9))
+                info["is_best_combo"] = bis.get("combo_idx")
+                info["oracle_combo"] = bos.get("combo_idx")
+                info["is_best_formulas"] = bis.get("formula_names")
+                info["is_best_thresholds"] = bis.get("optimal_thresholds")
+                info["oracle_formulas"] = bos.get("formula_names")
+                info["oracle_thresholds"] = bos.get("optimal_thresholds")
+                info["is_best_is"] = metrics(bis, "insample")
+                info["is_best_oos"] = metrics(bis, "outsample")
+                info["oracle_is"] = metrics(bos, "insample")
+                info["oracle_oos"] = metrics(bos, "outsample")
+
+                # OOS distribution
+                oos_irs = [(c.get("outsample", {}).get("excess_return_with_cost", {}) or {}).get("information_ratio") for c in combos]
+                oos_irs = [x for x in oos_irs if x is not None]
+                if oos_irs:
+                    info["oos_ir_min"] = min(oos_irs)
+                    info["oos_ir_max"] = max(oos_irs)
+                    info["oos_ir_median"] = sorted(oos_irs)[len(oos_irs) // 2]
+                    info["oos_ir_pos"] = sum(1 for x in oos_irs if x > 0)
+                    info["oos_ir_total"] = len(oos_irs)
+                    info["oos_pos_frac"] = info["oos_ir_pos"] / info["oos_ir_total"]
+
+                # Top 5 combos by OOS IR (oracle ranking)
+                ranked = sorted(combos, key=lambda c: (c.get("outsample", {}).get("excess_return_with_cost", {}) or {}).get("information_ratio", -1e9), reverse=True)
+                info["top_combos"] = []
+                for c in ranked[:10]:
+                    info["top_combos"].append({
+                        "combo_idx": c.get("combo_idx"),
+                        "formulas": c.get("formula_names"),
+                        "thresholds": c.get("optimal_thresholds"),
+                        "is": metrics(c, "insample"),
+                        "oos": metrics(c, "outsample"),
+                    })
+
+    # Verdict
+    info["verdict"] = compute_verdict(info)
+    return info
+
+
+def compute_verdict(info: dict) -> dict:
+    """Returns dict with class, label, sub_label."""
+    if info.get("status") == "incomplete":
+        return {"cls": "v-incomplete", "label": "INCOMPLETE", "sub": "no stage4_summary yet"}
+    if info.get("status") == "stage4_empty":
+        return {"cls": "v-incomplete", "label": "NO COMBOS", "sub": "Stage 2/3 produced no qualifying combos"}
+
+    oracle_ir = (info.get("oracle_oos") or {}).get("IR")
+    is_best_oos_ir = (info.get("is_best_oos") or {}).get("IR")
+
+    if oracle_ir is None:
+        return {"cls": "v-incomplete", "label": "INCOMPLETE", "sub": "no metrics"}
+
+    paper_ir = PAPER["oracle_oos_ir"]
+
+    if oracle_ir >= paper_ir:
+        cls, label = "v-beats", "BEATS PAPER"
+    elif oracle_ir >= 0.5:
+        cls, label = "v-strong", "STRONG"
+    elif oracle_ir >= 0.2:
+        cls, label = "v-moderate", "MODERATE OOS"
+    elif oracle_ir > 0:
+        cls, label = "v-weak", "WEAK +OOS"
+    else:
+        cls, label = "v-bad", "OOS NEGATIVE"
+
+    sub_parts = [f"oracle IR={oracle_ir:+.3f}"]
+    if is_best_oos_ir is not None:
+        if is_best_oos_ir > 0:
+            sub_parts.append(f"IS-best OOS IR={is_best_oos_ir:+.3f} (ROBUST!)")
+        else:
+            sub_parts.append(f"IS-best OOS IR={is_best_oos_ir:+.3f}")
+    return {"cls": cls, "label": label, "sub": " · ".join(sub_parts)}
+
+
+def fmt_num(v, fmt="{:+.4f}"):
+    if v is None:
+        return "—"
+    try:
+        return fmt.format(v)
+    except Exception:
+        return str(v)
+
+
+HTML_HEAD = """<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>FaVOR dashboard</title>
+<style>
+:root {
+  --bg: #0f172a; --bg2: #1e293b; --card: #1e293b; --fg: #e2e8f0; --muted: #94a3b8;
+  --accent: #60a5fa; --good: #22c55e; --warn: #eab308; --bad: #ef4444; --paper: #a78bfa;
+  --border: #334155;
+}
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+       margin: 0; background: var(--bg); color: var(--fg); padding: 24px; }
+h1 { margin: 0 0 4px; }
+header { margin-bottom: 24px; }
+header .meta { color: var(--muted); font-size: 13px; }
+.paper-baseline {
+  background: linear-gradient(135deg, #4c1d95, #312e81); padding: 14px 18px;
+  border-radius: 8px; margin-top: 12px; border-left: 4px solid var(--paper);
+}
+.paper-baseline strong { color: #ddd6fe; }
+.paper-baseline .nums { font-family: ui-monospace, monospace; font-size: 14px; margin-top: 6px; }
+.paper-baseline .caveat { color: #c4b5fd; font-size: 12px; margin-top: 6px; }
+
+.controls { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.controls input, .controls select {
+  background: var(--bg2); color: var(--fg); border: 1px solid var(--border);
+  padding: 8px 12px; border-radius: 6px; font-size: 14px;
+}
+.controls .summary { color: var(--muted); font-size: 13px; }
+
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 8px; overflow: hidden; }
+thead { background: #0f172a; position: sticky; top: 0; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+th { font-weight: 600; cursor: pointer; user-select: none; }
+th:hover { background: #334155; }
+th .sort-ind { color: var(--muted); margin-left: 4px; font-size: 10px; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: #334155; }
+tbody tr.expanded { background: #1e3a5f; }
+
+.grp { background: #0b1220; }
+.grp-is     { border-left: 1px solid #1e293b; }
+.grp-is.first { border-left: 2px solid #475569; }
+.grp-oracle { border-left: 2px solid #6d28d9; }
+thead .grp { text-align: center; color: var(--accent); font-size: 11px; letter-spacing: 0.5px; }
+thead .grp-oracle { color: #c4b5fd; }
+.verdict { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap; }
+.v-beats     { background: #14532d; color: #86efac; }
+.v-strong    { background: #422006; color: #fde68a; }
+.v-moderate  { background: #1e3a8a; color: #93c5fd; }
+.v-weak      { background: #1e293b; color: #cbd5e1; border: 1px solid #475569; }
+.v-bad       { background: #7f1d1d; color: #fca5a5; }
+.v-incomplete{ background: #312e81; color: #c7d2fe; }
+.v-paper     { background: #4c1d95; color: #ddd6fe; }
+
+.num { font-family: ui-monospace, monospace; }
+.num.pos { color: var(--good); }
+.num.neg { color: var(--bad); }
+.muted { color: var(--muted); }
+.tag { display: inline-block; background: var(--bg2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; font-size: 11px; margin-right: 4px; font-family: ui-monospace, monospace; }
+
+.detail-row { background: #0b1220 !important; cursor: default !important; }
+.detail-row td { padding: 16px 24px; }
+.detail-grid { display: grid; grid-template-columns: 280px 1fr; gap: 12px 20px; font-size: 13px; }
+.detail-grid > .k { color: var(--muted); }
+.detail-grid > .v { font-family: ui-monospace, monospace; word-break: break-word; }
+.detail-section { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.detail-section h3 { margin: 0 0 10px; font-size: 14px; color: var(--accent); }
+.combo-table { font-size: 11px; }
+.combo-table th, .combo-table td { padding: 4px 8px; }
+.formula-list li { margin-bottom: 4px; font-family: ui-monospace, monospace; font-size: 12px; }
+.behavioral { font-style: italic; color: var(--muted); padding: 8px 12px; background: var(--bg2); border-left: 3px solid var(--accent); border-radius: 4px; max-width: 800px; }
+</style>
+</head>
+<body>
+"""
+
+HTML_TAIL = """
+<script>
+const data = window.__RUNS__;
+const tbody = document.querySelector('#runs-table tbody');
+const filterInput = document.querySelector('#filter');
+const sortSel = document.querySelector('#sort-by');
+const summary = document.querySelector('#summary');
+
+let sortKey = 'oracle_oos_ir';
+let sortDir = -1;  // -1 desc, 1 asc
+
+function num(v) { return v === null || v === undefined ? null : Number(v); }
+function fmt(v, digits=4, sign=true) {
+  if (v === null || v === undefined || Number.isNaN(v)) return '—';
+  const s = (sign && v >= 0) ? '+' : '';
+  return s + Number(v).toFixed(digits);
+}
+function cls(v) {
+  if (v === null || v === undefined) return '';
+  return v >= 0 ? 'pos' : 'neg';
+}
+
+function expand(idx) {
+  const tr = tbody.children[idx*2];
+  const dr = tbody.children[idx*2 + 1];
+  if (!dr) return;
+  const isHidden = dr.style.display === 'none';
+  dr.style.display = isHidden ? '' : 'none';
+  tr.classList.toggle('expanded', isHidden);
+}
+
+function render() {
+  // filter
+  const f = filterInput.value.toLowerCase().trim();
+  let rows = data.filter(r => {
+    if (!f) return true;
+    return JSON.stringify(r).toLowerCase().includes(f);
+  });
+  // sort
+  rows.sort((a,b) => {
+    const av = num(a[sortKey]); const bv = num(b[sortKey]);
+    if (av === null && bv === null) return 0;
+    if (av === null) return 1;
+    if (bv === null) return -1;
+    return (av - bv) * sortDir;
+  });
+  summary.textContent = `${rows.length} runs · sorted by ${sortKey} ${sortDir<0?'↓':'↑'}`;
+  tbody.innerHTML = '';
+  rows.forEach((r, i) => {
+    const tr = document.createElement('tr');
+    tr.className = r.is_baseline ? 'paper-row' : '';
+    tr.onclick = () => expand(i);
+    tr.innerHTML = `
+      <td><strong>${escape(r.label || r.run_id || '')}</strong>
+          <div class="muted" style="font-size:11px">${escape(r.hypothesis_id || '')}</div></td>
+      <td>${r.n_combos ?? '—'}</td>
+      <td class="grp grp-is first"><span class="num ${cls(r.is_best_oos_ir)}">${fmt(r.is_best_oos_ir,4)}</span></td>
+      <td class="grp grp-is"><span class="num ${cls(r.is_best_oos_ar)}">${fmt(r.is_best_oos_ar,4)}</span></td>
+      <td class="grp grp-is"><span class="num">${fmt(r.is_best_oos_mdd,4,false)}</span></td>
+      <td class="grp grp-is"><span class="num ${cls(r.is_best_oos_cr)}">${fmt(r.is_best_oos_cr,4)}</span></td>
+      <td class="grp grp-oracle"><span class="num ${cls(r.oracle_oos_ir)}">${fmt(r.oracle_oos_ir,4)}</span></td>
+      <td class="grp grp-oracle"><span class="num ${cls(r.oracle_oos_ar)}">${fmt(r.oracle_oos_ar,4)}</span></td>
+      <td class="grp grp-oracle"><span class="num">${fmt(r.oracle_oos_mdd,4,false)}</span></td>
+      <td class="grp grp-oracle"><span class="num ${cls(r.oracle_oos_cr)}">${fmt(r.oracle_oos_cr,4)}</span></td>
+      <td>${r.oos_pos_frac !== null && r.oos_pos_frac !== undefined ? (r.oos_pos_frac*100).toFixed(0)+'%' : '—'}</td>
+      <td><span class="verdict ${r.is_baseline ? 'v-paper' : (r.verdict_cls||'v-incomplete')}">${escape(r.is_baseline ? 'PAPER REF' : (r.verdict_label||'?'))}</span></td>
+      <td><span class="muted" style="font-family:ui-monospace,monospace;font-size:11px">${escape(r.run_id||'')}</span></td>
+    `;
+    tbody.appendChild(tr);
+    const dr = document.createElement('tr');
+    dr.className = 'detail-row';
+    dr.style.display = 'none';
+    dr.innerHTML = `<td colspan="13">${r.detail_html || '<span class="muted">(no details)</span>'}</td>`;
+    tbody.appendChild(dr);
+  });
+}
+
+function escape(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.querySelectorAll('th[data-key]').forEach(th => {
+  th.onclick = () => {
+    const k = th.dataset.key;
+    if (sortKey === k) sortDir *= -1;
+    else { sortKey = k; sortDir = -1; }
+    document.querySelectorAll('.sort-ind').forEach(s => s.textContent = '');
+    th.querySelector('.sort-ind').textContent = sortDir < 0 ? '↓' : '↑';
+    render();
+  };
+});
+filterInput.oninput = render;
+
+render();
+</script>
+</body>
+</html>
+"""
+
+
+def render_run_detail(r: dict) -> str:
+    """Returns inner HTML for the expanded detail row."""
+    sections = []
+
+    # Settings
+    settings = [
+        ("LLM model", r.get("model")),
+        ("temperature", r.get("temperature")),
+        ("horizon_days", r.get("horizon")),
+        ("stop_loss", r.get("stop_loss")),
+        ("n_trials", r.get("n_trials")),
+        ("threshold range", f"[{r.get('threshold_min')}, {r.get('threshold_max')}]" if r.get("threshold_min") is not None else None),
+        ("entry_confirm_rule", r.get("entry_confirm")),
+        ("native_strategy", r.get("native_strategy")),
+        ("combo_pass_rate", r.get("combo_pass_rate")),
+        ("In-sample", r.get("in_sample")),
+        ("Out-of-sample", r.get("out_sample")),
+        ("Run ID", r.get("run_id")),
+    ]
+    settings_html = "<div class='detail-grid'>" + "".join(
+        f"<div class='k'>{escape(str(k))}</div><div class='v'>{escape(str(v if v is not None else '—'))}</div>"
+        for k, v in settings
+    ) + "</div>"
+    sections.append(("실험 세팅", settings_html))
+
+    # Concept
+    if r.get("concept"):
+        sections.append(("Concept (CLI 입력)", f"<div class='behavioral'>{escape(r['concept'])}</div>"))
+
+    # Hypothesis
+    if r.get("behavioral"):
+        sections.append(
+            ("LLM 생성 가설",
+             f"<div><strong>{escape(r.get('hypothesis_id', '?'))}</strong> · <em>{escape(r.get('hypothesis_name',''))}</em></div>"
+             f"<div class='behavioral'>{escape(r['behavioral'])}</div>")
+        )
+
+    # Observations + Formulas
+    if r.get("observations"):
+        obs_html = "<ul class='formula-list'>" + "".join(
+            f"<li><strong>{escape(o.get('observation_id',''))}</strong>: {escape(o.get('description',''))}</li>"
+            for o in r["observations"]
+        ) + "</ul>"
+        sections.append(("관측 (Stage 1)", obs_html))
+
+    if r.get("formulas"):
+        f_html = "<ul class='formula-list'>" + "".join(
+            f"<li><span class='tag'>{escape(f.get('name',''))}</span> "
+            f"<span class='muted'>[{escape(f.get('observation_id',''))}, {escape(f.get('polarity',''))}]</span> "
+            f"<code>{escape(f.get('definition',''))}</code></li>"
+            for f in r["formulas"]
+        ) + "</ul>"
+        sections.append(("Formula 정의 (Stage 1)", f_html))
+
+    # Top combos table
+    if r.get("top_combos"):
+        rows = []
+        for c in r["top_combos"]:
+            isd = c.get("is") or {}
+            oos = c.get("oos") or {}
+            rows.append(
+                "<tr>"
+                f"<td>{c.get('combo_idx','?')}</td>"
+                f"<td>{escape(', '.join(c.get('formulas') or []))}</td>"
+                f"<td class='num'>{fmt_num(isd.get('IR'))}</td>"
+                f"<td class='num {('pos' if (oos.get('IR') or 0)>=0 else 'neg')}'>{fmt_num(oos.get('IR'))}</td>"
+                f"<td class='num {('pos' if (oos.get('AR') or 0)>=0 else 'neg')}'>{fmt_num(oos.get('AR'))}</td>"
+                f"<td class='num'>{fmt_num(oos.get('MDD'))}</td>"
+                f"<td class='num'>{fmt_num(oos.get('CR'))}</td>"
+                "</tr>"
+            )
+        combos_html = (
+            "<table class='combo-table'><thead><tr>"
+            "<th>combo_idx</th><th>formulas</th><th>IS IR</th><th>OOS IR</th><th>OOS AR</th><th>OOS MDD</th><th>OOS CR</th>"
+            "</tr></thead><tbody>" + "".join(rows) + "</tbody></table>"
+        )
+        sections.append(("Top 10 combos by OOS IR (paper의 selection 방식)", combos_html))
+
+    # OOS distribution
+    if r.get("oos_ir_total"):
+        dist_html = (
+            f"<div class='detail-grid'>"
+            f"<div class='k'>min OOS IR</div><div class='v num {('pos' if (r.get('oos_ir_min') or 0)>=0 else 'neg')}'>{fmt_num(r.get('oos_ir_min'))}</div>"
+            f"<div class='k'>median OOS IR</div><div class='v num {('pos' if (r.get('oos_ir_median') or 0)>=0 else 'neg')}'>{fmt_num(r.get('oos_ir_median'))}</div>"
+            f"<div class='k'>max OOS IR (oracle)</div><div class='v num {('pos' if (r.get('oos_ir_max') or 0)>=0 else 'neg')}'>{fmt_num(r.get('oos_ir_max'))}</div>"
+            f"<div class='k'>positive OOS combos</div><div class='v'>{r.get('oos_ir_pos')}/{r.get('oos_ir_total')} ({r.get('oos_pos_frac',0)*100:.0f}%)</div>"
+            f"</div>"
+        )
+        sections.append(("OOS IR 분포 (전체 combo 기준)", dist_html))
+
+    # Comparison vs paper
+    paper_oracle = PAPER["oracle_oos_ir"]
+    cmp_lines = []
+    if r.get("oracle_oos") and r["oracle_oos"].get("IR") is not None:
+        diff = r["oracle_oos"]["IR"] - paper_oracle
+        cls_ = "pos" if diff >= 0 else "neg"
+        cmp_lines.append(f"<li>OOS-oracle IR <strong class='num {cls_}'>{fmt_num(r['oracle_oos']['IR'])}</strong> vs paper +0.6470 → diff <span class='num {cls_}'>{fmt_num(diff)}</span></li>")
+    if r.get("is_best_oos") and r["is_best_oos"].get("IR") is not None:
+        cls_ = "pos" if r["is_best_oos"]["IR"] >= 0 else "neg"
+        cmp_lines.append(
+            f"<li>IS-best (honest selection) OOS IR <strong class='num {cls_}'>{fmt_num(r['is_best_oos']['IR'])}</strong> "
+            f"<span class='muted'>(paper의 IS-best는 -0.5621로 OOS 붕괴)</span></li>"
+        )
+    if cmp_lines:
+        sections.append(("vs Paper Table 1", "<ul>" + "".join(cmp_lines) + "</ul>"))
+
+    # Path hint
+    sections.append(("산출물 경로", f"<code>runs/{escape(r.get('run_id',''))}/</code>"))
+
+    out = ""
+    for title, content in sections:
+        out += f"<div class='detail-section'><h3>{escape(title)}</h3>{content}</div>"
+    return out
+
+
+def main() -> None:
+    rows = []
+
+    # Paper baseline first
+    paper_row = {
+        "is_baseline": True,
+        "label": "Paper Table 1",
+        "hypothesis_id": PAPER["hypothesis_id"],
+        "n_combos": PAPER["n_combos"],
+        "is_best_oos_ir": PAPER["is_best_oos_ir"],
+        "is_best_oos_ar": PAPER["is_best_oos_ar"],
+        "is_best_oos_mdd": None,  # paper run의 combo_15에 대한 MDD/CR은 stage4_summary에서 직접 조회해야 함
+        "is_best_oos_cr": None,
+        "oracle_oos_ir": PAPER["oracle_oos_ir"],
+        "oracle_oos_ar": PAPER["oracle_oos_ar"],
+        "oracle_oos_mdd": PAPER["oracle_oos_mdd"],
+        "oracle_oos_cr": PAPER["oracle_oos_cr"],
+        "oos_pos_frac": 18 / 84,
+        "verdict_cls": "v-paper",
+        "verdict_label": "PAPER REF",
+        "run_id": "20260207_051736 (frozen)",
+    }
+    # Try to enrich paper row with IS-best MDD/CR from frozen stage4_summary if available
+    frozen_p = Path("/home/dgu/fin/01_15_new_qlib/runs/20260207_051736/specs/stage4_summary.json")
+    if frozen_p.exists():
+        try:
+            jp = json.load(open(frozen_p))
+            op = jp.get("outer_iter_1") or {}
+            combos_p = op.get("all_combinations", [])
+            if combos_p:
+                bis_p = max(combos_p, key=lambda c: (c.get("insample", {}).get("excess_return_with_cost", {}) or {}).get("information_ratio", -1e9))
+                m_p = bis_p.get("outsample", {}).get("excess_return_with_cost", {}) or {}
+                paper_row["is_best_oos_mdd"] = m_p.get("max_drawdown")
+                paper_row["is_best_oos_cr"]  = m_p.get("net_return")
+        except Exception:
+            pass
+    paper_detail = (
+        "<div class='detail-section'><h3>Paper Table 1 베이스라인</h3>"
+        "<div class='detail-grid'>"
+        f"<div class='k'>concept</div><div class='v'>{escape(PAPER['concept'])}</div>"
+        f"<div class='k'>hypothesis_id</div><div class='v'>{escape(PAPER['hypothesis_id'])}</div>"
+        f"<div class='k'>n_combos</div><div class='v'>{PAPER['n_combos']}</div>"
+        f"<div class='k'>OOS-oracle (paper Table 1)</div>"
+        f"<div class='v'>IR={fmt_num(PAPER['oracle_oos_ir'])} AR={fmt_num(PAPER['oracle_oos_ar'])} MDD={fmt_num(PAPER['oracle_oos_mdd'])} CR={fmt_num(PAPER['oracle_oos_cr'])}</div>"
+        f"<div class='k'>IS-best (honest)</div>"
+        f"<div class='v'>OOS IR={fmt_num(PAPER['is_best_oos_ir'])} (catastrophic — 같은 paper가 IS로 골랐다면 -0.56)</div>"
+        f"<div class='k'>horizon</div><div class='v'>{PAPER['horizon']}</div>"
+        f"<div class='k'>stop_loss</div><div class='v'>{PAPER['stop_loss']}</div>"
+        f"<div class='k'>n_trials</div><div class='v'>{PAPER['n_trials']}</div>"
+        f"<div class='k'>model</div><div class='v'>{PAPER['model']}</div>"
+        "</div>"
+        "<div style='margin-top:14px; padding:10px; background:#1e293b; border-radius:6px; font-size:12px; color:#cbd5e1;'>"
+        "⚠️ paper의 +0.65 OOS IR은 <code>analysis/0203 copy 3.ipynb</code>에서 84 combo 중 OOS IR 1위만 채택한 결과 (data snooping). "
+        "IS-best로 정직하게 골랐다면 같은 paper run에서도 OOS IR=-0.5621."
+        "</div></div>"
+    )
+    paper_row["detail_html"] = paper_detail
+    rows.append(paper_row)
+
+    # Scan all run dirs
+    if RUNS_DIR.exists():
+        for d in sorted(RUNS_DIR.iterdir()):
+            if not d.is_dir():
+                continue
+            info = collect_run(d)
+
+            # Try to derive a "label" from run_id (sweep_runner appends label after timestamp)
+            rid = info["run_id"]
+            label = rid
+            # Pattern: YYYYMMDD_HHMMSS_<label>  (sweep) or YYYYMMDD_HHMMSS or YYYYMMDD_HHMMSS_microsec
+            parts = rid.split("_")
+            if len(parts) >= 3:
+                # If 3rd part is non-numeric, treat as label
+                if not parts[2].isdigit():
+                    label = "_".join(parts[2:])
+            info["label"] = label
+
+            # Flatten metric fields used by JS
+            ibo = info.get("is_best_oos") or {}
+            oco = info.get("oracle_oos") or {}
+            info["is_best_oos_ir"]  = ibo.get("IR")
+            info["is_best_oos_ar"]  = ibo.get("AR")
+            info["is_best_oos_mdd"] = ibo.get("MDD")
+            info["is_best_oos_cr"]  = ibo.get("CR")
+            info["oracle_oos_ir"]   = oco.get("IR")
+            info["oracle_oos_ar"]   = oco.get("AR")
+            info["oracle_oos_mdd"]  = oco.get("MDD")
+            info["oracle_oos_cr"]   = oco.get("CR")
+            info["verdict_cls"] = info["verdict"]["cls"]
+            info["verdict_label"] = info["verdict"]["label"]
+
+            info["detail_html"] = render_run_detail(info)
+            rows.append(info)
+
+    # Build HTML
+    n_runs = len(rows) - 1  # excluding paper baseline
+    n_complete = sum(1 for r in rows if r.get("status") == "complete")
+
+    html = HTML_HEAD
+    html += f"""<header>
+  <h1>FaVOR sweep results</h1>
+  <p class="meta">Generated {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} · {n_runs} run(s) discovered · {n_complete} complete</p>
+  <div class="paper-baseline">
+    <strong>Paper Table 1 (CSI 500 FaVOR) 기준선</strong>
+    <div class="nums">AR={fmt_num(PAPER['oracle_oos_ar'])} · IR={fmt_num(PAPER['oracle_oos_ir'])} · MDD={fmt_num(PAPER['oracle_oos_mdd'])} · CR={fmt_num(PAPER['oracle_oos_cr'])}</div>
+    <div class="caveat">※ 이 수치는 84 combo 중 OOS IR 1위만 채택한 OOS-oracle 값. 정직하게 IS-best로 골랐다면 같은 run에서도 OOS IR=-0.5621.</div>
+  </div>
+</header>
+
+<div class="controls">
+  <input id="filter" placeholder="🔍 라벨/가설/concept으로 필터…" style="flex:1; min-width:200px;">
+  <span id="summary" class="summary"></span>
+</div>
+
+<table id="runs-table">
+  <thead>
+    <tr>
+      <th rowspan="2" data-key="label">Label / Hypothesis<span class="sort-ind"></span></th>
+      <th rowspan="2" data-key="n_combos">#combos<span class="sort-ind"></span></th>
+      <th colspan="4" class="grp grp-is">IS-best combo (honest selection) — OOS metrics</th>
+      <th colspan="4" class="grp grp-oracle">Oracle combo (paper's selection) — OOS metrics</th>
+      <th rowspan="2" data-key="oos_pos_frac">+OOS<br/>combos<span class="sort-ind"></span></th>
+      <th rowspan="2">Verdict</th>
+      <th rowspan="2">run_id</th>
+    </tr>
+    <tr>
+      <th data-key="is_best_oos_ir"  class="grp grp-is">IR<span class="sort-ind"></span></th>
+      <th data-key="is_best_oos_ar"  class="grp grp-is">AR<span class="sort-ind"></span></th>
+      <th data-key="is_best_oos_mdd" class="grp grp-is">MDD<span class="sort-ind"></span></th>
+      <th data-key="is_best_oos_cr"  class="grp grp-is">CR<span class="sort-ind"></span></th>
+      <th data-key="oracle_oos_ir"   class="grp grp-oracle">IR<span class="sort-ind">↓</span></th>
+      <th data-key="oracle_oos_ar"   class="grp grp-oracle">AR<span class="sort-ind"></span></th>
+      <th data-key="oracle_oos_mdd"  class="grp grp-oracle">MDD<span class="sort-ind"></span></th>
+      <th data-key="oracle_oos_cr"   class="grp grp-oracle">CR<span class="sort-ind"></span></th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+window.__RUNS__ = {json.dumps(rows, ensure_ascii=False)};
+</script>
+"""
+    html += HTML_TAIL
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(html, encoding="utf-8")
+    print(f"wrote {OUT} — {n_runs} runs ({n_complete} complete)")
+
+
+if __name__ == "__main__":
+    main()

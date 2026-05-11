@@ -1,0 +1,15 @@
+# Python 3.12 (quant conda env)
+# 핵심 의존성만. 정확한 pin 이 필요하면 `pip freeze` 로 재출력 권장.
+pyqlib==0.9.7
+polars==1.35.2
+optuna==4.6.0
+openai==2.8.1
+pandas==2.3.3
+numpy==2.2.6
+pyarrow==22.0.0
+scipy==1.16.3
+scikit-learn==1.7.2
+matplotlib==3.10.7
+joblib==1.5.2
+python-dotenv==1.2.1
+tqdm==4.67.1

@@ -1,0 +1,22 @@
+# Sweep / experiment outputs (regenerated locally)
+runs/
+repro_logs/sweep_*.log
+repro_logs/sweep_master.log
+repro_logs/sweep_artifacts/
+repro_logs/run*.log
+repro_logs/smoke.log
+
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+.DS_Store
