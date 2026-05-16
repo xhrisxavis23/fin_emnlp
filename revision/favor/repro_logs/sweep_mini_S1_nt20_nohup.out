@@ -1,0 +1,26 @@
+[2026-05-12 09:46:11] Phase 4 mini × S1 × n_trials=20 sweep starting; 20 jobs, parallel=3, outer_loop=3
+[2026-05-12 09:46:11] log dir: /home/dgu/fin/revision/revision/favor/repro_logs
+[2026-05-12 09:46:11] queue: (1/20) M01_paper_base
+[2026-05-12 09:46:11] queue: (2/20) M02_uptrend_base
+[2026-05-12 09:46:11] queue: (3/20) M03_panic_base
+[2026-05-12 10:15:02] queue: (4/20) M04_compressed_base
+[2026-05-12 10:27:13] queue: (5/20) M05_volcomp_base
+[2026-05-12 10:41:24] queue: (6/20) M06_paper_stop005
+[2026-05-12 10:52:45] queue: (7/20) M07_paper_stopNone
+[2026-05-12 11:22:16] queue: (8/20) M08_paper_thr0795
+[2026-05-12 11:25:06] queue: (9/20) M09_paper_h10
+[2026-05-12 12:04:39] queue: (10/20) M10_paper_h20
+[2026-05-12 12:49:42] queue: (11/20) M11_paper_entry_up
+[2026-05-12 12:49:52] queue: (12/20) M12_compressed_stop005
+[2026-05-12 13:30:14] queue: (13/20) M13_compressed_stopNone
+[2026-05-12 13:31:54] queue: (14/20) M14_compressed_thr0795
+[2026-05-12 14:10:56] queue: (15/20) M15_compressed_h10
+[2026-05-12 14:43:18] queue: (16/20) M16_compressed_h20
+[2026-05-12 14:48:19] queue: (17/20) M17_compressed_entry_up
+[2026-05-12 15:21:51] queue: (18/20) M18_volcomp_h10
+[2026-05-12 15:32:01] queue: (19/20) M19_volcomp_h20
+[2026-05-12 15:48:12] queue: (20/20) M20_volcomp_stop005
+[2026-05-12 17:33:57] Phase 4 mini × S1 × n_trials=20 sweep complete; 20 jobs processed
+[2026-05-12 17:33:57] rebuilding favor_dashboard.html ...
+wrote /home/dgu/fin/revision/revision/favor/favor_dashboard.html — 66 runs (62 complete)
+[2026-05-12 17:35:38] dashboard rebuilt: /home/dgu/fin/revision/revision/favor/favor_dashboard.html

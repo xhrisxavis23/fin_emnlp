@@ -325,7 +325,7 @@ def load_rd_config() -> RDConfig:
         # CN Market (CSI500) configuration
         config.qlib.qlib_market = "csi500"
         config.qlib.region = "cn"
-        config.qlib.provider_uri = "~/.qlib/qlib_data/cn_data"
+        config.qlib.provider_uri = os.getenv("FAVOR_QLIB_PROVIDER_URI_CN", "~/.qlib/qlib_data/cn_data")
         config.qlib.open_cost = 0.0005      # 0.05% buy fee
         config.qlib.close_cost = 0.0015     # 0.15% sell fee
         config.qlib.min_cost = 5.0          # Minimum transaction cost (CN default)
@@ -335,12 +335,80 @@ def load_rd_config() -> RDConfig:
         # US Market (S&P500) configuration
         config.qlib.qlib_market = "sp500"
         config.qlib.region = "us"
-        config.qlib.provider_uri = "~/.qlib/sh_sp500_qlib"
+        config.qlib.provider_uri = os.getenv("FAVOR_QLIB_PROVIDER_URI_US", "~/.qlib/sh_sp500_qlib")
         config.qlib.open_cost = 0            # No buy fee
         config.qlib.close_cost = 0.0005      # 0.05% sell fee
         config.qlib.min_cost = 0.0           # No minimum cost
         config.qlib.limit_threshold = None   # No daily price limit
         config.qlib.benchmark = "^GSPC"      # S&P500 index
+
+    # ─── Additive env-var overrides for sweep / repro experiments ───────────
+    # All optional; when unset, fall back to the existing defaults above.
+    def _env_str(name: str, current: str) -> str:
+        v = os.getenv(name)
+        return v if v is not None and v != "" else current
+
+    def _env_float(name: str, current: float) -> float:
+        v = os.getenv(name)
+        if v is None or v == "":
+            return current
+        try:
+            return float(v)
+        except ValueError:
+            return current
+
+    def _env_int(name: str, current: int) -> int:
+        v = os.getenv(name)
+        if v is None or v == "":
+            return current
+        try:
+            return int(v)
+        except ValueError:
+            return current
+
+    def _env_optional_float(name: str, current):
+        """Same as _env_float but allows the literal string 'none' / 'disable' / 'null' to set None."""
+        v = os.getenv(name)
+        if v is None or v == "":
+            return current
+        if v.strip().lower() in ("none", "null", "disable", "disabled", "off"):
+            return None
+        try:
+            return float(v)
+        except ValueError:
+            return current
+
+    # LLM
+    config.llm.model_name = _env_str("FAVOR_LLM_MODEL", config.llm.model_name)
+    config.llm.temperature = _env_float("FAVOR_LLM_TEMPERATURE", config.llm.temperature)
+
+    # Stage 3
+    config.stage3.combination_pass_rate_threshold = _env_float(
+        "FAVOR_COMBO_PASS_RATE", config.stage3.combination_pass_rate_threshold
+    )
+
+    # Stage 4
+    config.stage4.horizon_days = _env_int("FAVOR_HORIZON_DAYS", config.stage4.horizon_days)
+    config.stage4.stop_loss_threshold = _env_optional_float(
+        "FAVOR_STOP_LOSS_THRESHOLD", config.stage4.stop_loss_threshold
+    )
+    config.stage4.entry_confirm_rule = _env_str(
+        "FAVOR_ENTRY_CONFIRM_RULE", config.stage4.entry_confirm_rule
+    )
+    config.stage4.native_strategy = _env_str(
+        "FAVOR_NATIVE_STRATEGY", config.stage4.native_strategy
+    )
+    config.stage4.threshold_min = _env_float("FAVOR_THRESHOLD_MIN", config.stage4.threshold_min)
+    config.stage4.threshold_max = _env_float("FAVOR_THRESHOLD_MAX", config.stage4.threshold_max)
+
+    # data_split (sweep over time ranges; env vars unset → defaults intact)
+    config.data_split.train_start = _env_str("FAVOR_TRAIN_START", config.data_split.train_start)
+    config.data_split.train_end   = _env_str("FAVOR_TRAIN_END",   config.data_split.train_end)
+    config.data_split.val_start   = _env_str("FAVOR_VAL_START",   config.data_split.val_start)
+    config.data_split.val_end     = _env_str("FAVOR_VAL_END",     config.data_split.val_end)
+    config.data_split.test_start  = _env_str("FAVOR_TEST_START",  config.data_split.test_start)
+    config.data_split.test_end    = _env_str("FAVOR_TEST_END",    config.data_split.test_end)
+
     return config
 
 def load_price_data(
